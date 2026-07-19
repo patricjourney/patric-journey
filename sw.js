@@ -1,5 +1,1 @@
-const CACHE='patric-journey-2.1';
-const CORE=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./assets/hero-dashboard.png'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE))));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return res;}).catch(()=>caches.match('./index.html'))));});
+const C='patric-journey-df1';const A=['./','index.html','styles.css','app.js','manifest.webmanifest','assets/hero-wide.png','assets/hero-device.png','assets/hero-dashboard.png'];self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(A))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));

@@ -1,10 +1,1 @@
-{
-  "name": "Patric Journey",
-  "short_name": "JourneyOS",
-  "start_url": "./#home",
-  "display": "standalone",
-  "background_color": "#07090c",
-  "theme_color": "#07090c",
-  "description": "Your life. Beautifully remembered.",
-  "icons": []
-}
+{"name":"Patric Journey","short_name":"Patric Journey","start_url":"./","display":"standalone","background_color":"#070706","theme_color":"#070706","icons":[]}

@@ -1,122 +1,128 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08090c">
-  <meta name="description" content="Patric Journey — Your life. Beautifully remembered.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
-  <title>Patric Journey · JourneyOS 2.1</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#070706" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Patric Journey</title>
 </head>
 <body>
-  <div id="intro" class="intro" aria-hidden="true">
-    <div class="intro-glow"></div>
-    <div class="intro-copy">
-      <span>PATRIC JOURNEY</span>
-      <h1>Your life.<br><em>Beautifully remembered.</em></h1>
-      <div class="signature">Patric Bize</div>
-    </div>
-  </div>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-view="home" aria-label="Home">
+        <span class="palm">✦</span>
+        <span><b>PATRIC</b><small>JOURNEY</small></span>
+      </button>
+      <div class="top-actions">
+        <button id="soundBtn" class="icon-btn" aria-label="Toggle ambience">◌</button>
+        <button class="avatar" data-view="vault">PB</button>
+      </div>
+    </header>
 
-  <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Home">
-      <b>↟</b><span><strong>PATRIC</strong><small>JOURNEY</small></span>
-    </button>
-    <div class="top-actions">
-      <span class="status"><i></i> JOURNEYOS 2.1</span>
-      <button id="installBtn" class="install" hidden>Installieren</button>
-      <button class="avatar" aria-label="Profil">PB</button>
-    </div>
-  </header>
+    <main>
+      <section class="view active" id="home">
+        <div class="hero-grid">
+          <article class="hero-card glass">
+            <img src="assets/hero-wide.png" alt="Cinematic sunset portrait" />
+            <div class="hero-shade"></div>
+            <div class="hero-copy">
+              <span class="eyebrow">WELCOME HOME</span>
+              <h1><span id="greeting">Good evening,</span><br><em>Patric.</em></h1>
+              <p>Your next story is <strong>Thailand 2026</strong></p>
+              <div class="signature">Patric Bize</div>
+              <button class="primary" data-view="journey">Continue your story <span>→</span></button>
+            </div>
+            <div class="countdown-card">
+              <strong id="days">—</strong><span>days to go</span>
+              <div><b>27</b><small>nights</small></div>
+              <div><b>5</b><small>hotels</small></div>
+            </div>
+          </article>
 
-  <main>
-    <section id="home" class="view active">
-      <section class="hero">
-        <img class="hero-image" src="assets/hero-dashboard.png" alt="Patric Journey Premium Dashboard">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <span class="eyebrow">WELCOME HOME</span>
-          <h2>Welcome back,<br><em>Patric.</em></h2>
-          <p>Your next story begins in <strong id="countdown">—</strong> days.</p>
-          <div class="hero-meta">
-            <div><b>Thailand & Vietnam</b><small>01–28 December 2026</small></div>
-            <button data-view="journey">Continue your story →</button>
-          </div>
+          <article class="globe-card glass">
+            <div class="panel-head"><span>CINEMATIC GLOBE</span><i>LIVE</i></div>
+            <div class="globe">
+              <div class="earth"></div>
+              <svg viewBox="0 0 600 360" aria-hidden="true">
+                <path class="route" d="M110 175 C210 95 315 120 365 175 S445 255 505 245" />
+                <circle cx="110" cy="175" r="6" class="dot"/><circle cx="505" cy="245" r="6" class="dot"/>
+              </svg>
+              <div class="route-label start">ZRH<small>Zurich</small></div>
+              <div class="route-label end">PQC<small>Phu Quoc</small></div>
+            </div>
+            <div class="flight-strip">
+              <div><span>NEXT FLIGHT</span><b>BKK → PQC</b><small>04 DEC · 13:15</small></div>
+              <div><span>BOOKING</span><b>F5XVGR</b><small>Confirmed</small></div>
+              <button data-view="journey">View details →</button>
+            </div>
+          </article>
+
+          <article class="concierge-card glass">
+            <div class="panel-head"><span>YOUR CONCIERGE</span><i>●</i></div>
+            <h2 id="conciergeGreeting">Good evening, Patric.</h2>
+            <p>I’ve prepared a few things for your journey.</p>
+            <button class="insight"><span>☀</span><div><b>Golden Hour</b><small>Best light in Phu Quoc · 17:42</small></div><i>›</i></button>
+            <button class="insight"><span>⌁</span><div><b>Journey Check</b><small>All 27 nights are booked</small></div><i>›</i></button>
+            <button class="insight"><span>✦</span><div><b>Open item</b><small>Hua Hin → Bangkok transfer</small></div><i>›</i></button>
+            <form id="quickAsk" class="ask"><input placeholder="Ask me anything…"/><button>↗</button></form>
+          </article>
+        </div>
+
+        <section class="destination glass">
+          <img src="assets/hero-dashboard.png" alt="Phu Quoc at sunset" />
+          <div class="destination-overlay"></div>
+          <div class="destination-copy"><span>CURRENT DESTINATION</span><h2>Phu Quoc Island</h2><p>04 DEC — 12 DEC 2026</p></div>
+          <div class="weather"><b>29°</b><small>Light breeze</small><b>17:42</b><small>Golden hour</small></div>
+        </section>
+
+        <div class="lower-grid">
+          <section class="timeline-preview glass"><div class="panel-head"><span>JOURNEY TIMELINE</span><button data-view="journey">VIEW ALL</button></div><div id="timelinePreview"></div></section>
+          <section class="memory-preview glass"><div class="panel-head"><span>YOUR MEMORIES</span><button data-view="memories">VIEW ALL</button></div><h2>Your story is ready.</h2><p>Thailand 2026 · A journey remembered.</p><button class="secondary" data-view="memories">Watch your film ▶</button></section>
+          <section class="budget-preview glass"><div class="panel-head"><span>BUDGET OVERVIEW</span><small>THAILAND 2026</small></div><div class="budget-ring"><span>CHF<br><b>6’565.90</b></span></div><div class="budget-meta"><div><small>PAID</small><b>CHF 6’565.90</b></div><div><small>OPEN</small><b>THB 4’400</b></div></div></section>
         </div>
       </section>
 
-      <section class="grid dashboard">
-        <article class="card concierge-feature">
-          <div class="card-head"><span>YOUR CONCIERGE</span><span class="online">● ONLINE</span></div>
-          <div class="feature-copy">
-            <small>GOOD AFTERNOON, PATRIC.</small>
-            <h3>Everything is beautifully on track.</h3>
-            <p>Your Phu Quoc stay is confirmed. The private airport transfer remains the next open item.</p>
-            <button data-view="concierge">Open Concierge →</button>
-          </div>
-        </article>
-
-        <article class="card globe-feature">
-          <div class="card-head"><span>JOURNEY GLOBE</span><span>LIVE</span></div>
-          <div class="globe"><span class="zrh">ZRH</span><span class="bkk">BKK</span><span class="pqc">PQC</span><i></i></div>
-          <div class="route-copy"><small>NEXT ROUTE</small><b>Zürich → Abu Dhabi → Bangkok → Phu Quoc</b></div>
-        </article>
-
-        <article class="card next-card">
-          <div class="card-head"><span>NEXT CHAPTER</span><span>01 DEC</span></div>
-          <div class="next-content"><span class="icon">✈</span><div><small>ETIHAD BUSINESS</small><h3>The journey begins.</h3><p>Zürich 21:35 → Abu Dhabi</p></div><b>04A</b></div>
-        </article>
-
-        <article class="card budget-mini">
-          <div class="card-head"><span>JOURNEY BUDGET</span><button data-view="budget">VIEW</button></div>
-          <div class="big-number">CHF 4'526.52</div><p>Recorded · plus THB 4'400 open</p><div class="progress"><i style="width:78%"></i></div>
-        </article>
-
-        <article class="card essentials">
-          <div class="card-head"><span>TRIP ESSENTIALS</span><span id="essentialCount">3 / 6 DONE</span></div>
-          <div class="check-grid">
-            <label><input type="checkbox" checked data-essential><span>Flights</span><small>Confirmed</small></label>
-            <label><input type="checkbox" checked data-essential><span>Hotel</span><small>Confirmed</small></label>
-            <label><input type="checkbox" checked data-essential><span>Insurance</span><small>Active</small></label>
-            <label><input type="checkbox" data-essential><span>Transfer</span><small>Open</small></label>
-            <label><input type="checkbox" data-essential><span>Vietnam hotel</span><small>Open</small></label>
-            <label><input type="checkbox" data-essential><span>Activities</span><small>Curating</small></label>
-          </div>
-        </article>
-
-        <article class="card legacy-feature"><div class="legacy-bg"></div><div class="shade"></div><div class="legacy-copy"><small>THE LEGACY COLLECTION</small><h3>Thailand 2026</h3><p>Collection No. 01 · A Journey Remembered</p><button data-view="legacy">Open Storybook →</button></div></article>
+      <section class="view" id="journey">
+        <div class="page-title"><span>YOUR JOURNEY</span><h1>Thailand 2026</h1><p>Every booking, every chapter, perfectly aligned.</p></div>
+        <div class="journey-layout">
+          <div class="timeline-full glass" id="timelineFull"></div>
+          <aside class="trip-summary glass">
+            <h3>Journey status</h3><div class="progress"><i style="width:96%"></i></div><b>96% complete</b>
+            <ul><li>✓ 27 of 27 nights booked</li><li>✓ All flights confirmed</li><li>✓ Hotels paid</li><li>! 2 transfers to arrange</li></ul>
+          </aside>
+        </div>
       </section>
-    </section>
 
-    <section id="journey" class="view page">
-      <div class="page-hero journey-hero"><span class="eyebrow">THAILAND & VIETNAM 2026</span><h2>Your story,<br><em>day by day.</em></h2><p>Flights, stays, transfers and moments — woven into one continuous journey.</p></div>
-      <div class="page-wrap"><div class="timeline">
-        <div class="day active"><time>01 DEC</time><div><small>ZÜRICH</small><h3>The journey begins</h3><p>Etihad Business · ZRH 21:35 → AUH</p></div><span>CONFIRMED</span></div>
-        <div class="day"><time>02 DEC</time><div><small>ABU DHABI → BANGKOK</small><h3>Arrival in Asia</h3><p>AUH 08:45 → BKK 18:00</p></div><span>CONFIRMED</span></div>
-        <div class="day"><time>04 DEC</time><div><small>BANGKOK → PHU QUOC</small><h3>Island chapter</h3><p>Bangkok Airways · flight 9G702</p></div><span>CONFIRMED</span></div>
-        <div class="day"><time>04–12 DEC</time><div><small>PHU QUOC</small><h3>Your home in paradise</h3><p>WorldHotels Long Beach Resort · 8 nights</p></div><span>PAID</span></div>
-        <div class="day"><time>12–17 DEC</time><div><small>SI RACHA</small><h3>Marina days</h3><p>5 nights · coastal Thailand</p></div><span>PLANNED</span></div>
-        <div class="day"><time>18–28 DEC</time><div><small>VIETNAM</small><h3>The final chapter</h3><p>Culture, food and a slow return home</p></div><span>IN DESIGN</span></div>
-      </div></div>
-    </section>
+      <section class="view" id="memories">
+        <div class="page-title"><span>THE LEGACY COLLECTION</span><h1>A Journey Remembered</h1><p>Not a gallery. A living travel book.</p></div>
+        <div class="book glass"><img src="assets/hero-wide.png" alt="Thailand storybook cover"><div><span>COLLECTION NO. 01</span><h2>Thailand 2026</h2><p>Every journey deserves to be remembered beautifully.</p><div class="signature">Patric Bize</div><button class="primary">Open storybook →</button></div></div>
+      </section>
 
-    <section id="concierge" class="view page">
-      <div class="page-hero concierge-hero"><span class="eyebrow">PATRIC JOURNEY CONCIERGE</span><h2>Quietly attentive.<br><em>Always one step ahead.</em></h2></div>
-      <div class="page-wrap chat-layout"><div class="chat" id="chat"><div class="message concierge"><small>TODAY · 14:00</small><p>Good afternoon, Patric. I reviewed your December journey. Everything important is confirmed. I would complete the private transfer from Phu Quoc airport next.</p></div><div class="message user"><p>Find me something special for sunset.</p></div><div class="message concierge"><small>CURATED FOR YOU</small><p>I would choose a quiet beachfront table south of Long Beach, away from the busiest resort stretch. Golden Hour begins around 17:18.</p></div></div><div class="insights"><article><span>☀</span><div><b>Golden Hour</b><small>Phu Quoc · 17:18</small></div></article><article><span>✦</span><div><b>Next action</b><small>Private airport transfer</small></div></article><article><span>⌁</span><div><b>Travel rhythm</b><small>Relaxed · premium · local</small></div></article><div class="composer"><input aria-label="Concierge message" placeholder="Ask your concierge…"><button aria-label="Send">↑</button></div></div></div>
-    </section>
+      <section class="view" id="concierge">
+        <div class="page-title"><span>PRIVATE CONCIERGE</span><h1>Good evening, Patric.</h1><p>Calm, personal and always one step ahead.</p></div>
+        <div class="chat glass"><div id="messages"><div class="message assistant">Everything for Thailand is on track. All 27 hotel nights are booked. The only remaining items are the Si Racha → Hua Hin and Hua Hin → Bangkok transfers.</div></div><form id="chatForm"><input id="chatInput" placeholder="Ask about your journey…"><button>Send</button></form></div>
+      </section>
 
-    <section id="budget" class="view page">
-      <div class="page-hero budget-hero"><span class="eyebrow">SMART BUDGET</span><h2>Every detail.<br><em>Beautifully clear.</em></h2></div>
-      <div class="page-wrap"><div class="budget-grid"><article class="metric"><small>TOTAL RECORDED</small><b>CHF 4'526.52</b><span>+ THB 4'400 open</span></article><article class="metric"><small>ALREADY PAID</small><b>CHF 4'518.01</b><span>99.8% covered</span></article><article class="metric"><small>DAILY AVERAGE</small><b>CHF 161.66</b><span>28 travel days</span></article></div><article class="card breakdown"><div class="card-head"><span>COST BREAKDOWN</span><span>CHF</span></div><div class="cost"><label><span>Flights</span><b>2'937.64</b></label><i style="--w:65%"></i></div><div class="cost"><label><span>Hotels</span><b>1'580.37</b></label><i style="--w:35%"></i></div><div class="cost"><label><span>Insurance & fees</span><b>8.51</b></label><i style="--w:4%"></i></div></article></div>
-    </section>
+      <section class="view" id="vault">
+        <div class="page-title"><span>THE VAULT</span><h1>Every detail, protected.</h1><p>Bookings, confirmations and travel documents.</p></div>
+        <div class="vault-grid" id="vaultGrid"></div>
+      </section>
+    </main>
 
-    <section id="food" class="view page"><div class="page-hero food-hero"><span class="eyebrow">THE FOOD GUIDE</span><h2>Taste the place.<br><em>Remember the feeling.</em></h2></div><div class="page-wrap"><div class="food-grid"><article><div class="food-img f1"></div><small>PHU QUOC</small><h3>Sunset seafood</h3><p>Fresh catch, charcoal grill and a table near the water.</p></article><article><div class="food-img f2"></div><small>BANGKOK</small><h3>After-dark flavours</h3><p>Modern Thai cooking with local depth, not tourist theatre.</p></article><article><div class="food-img f3"></div><small>VIETNAM</small><h3>Morning ritual</h3><p>Strong coffee, market breakfast and a slow start.</p></article></div></div></section>
-
-    <section id="legacy" class="view page"><div class="book-cover"><div><small>THE LEGACY COLLECTION · NO. 01</small><h2>Thailand<br>2026</h2><p>A Journey Remembered</p></div></div><div class="page-wrap story"><blockquote>“Every journey changes us in ways we only understand later.”</blockquote><div class="story-grid"><article><small>CHAPTER I</small><h3>The Departure</h3><p>Zurich disappeared beneath the winter clouds as the first chapter began.</p></article><article><small>CHAPTER II</small><h3>Island Light</h3><p>Warm sand, salt in the air and the quiet luxury of having nowhere to rush.</p></article><article><small>CHAPTER III</small><h3>Moments Kept</h3><p>Meals, sunsets and small details transformed into a story worth returning to.</p></article></div><div class="story-end"><div class="signature">Patric Bize</div><small>THIS STORY HAS BECOME PART OF YOUR LEGACY.</small></div></div></section>
-  </main>
-
-  <nav class="dock"><button class="active" data-view="home">⌂<span>Home</span></button><button data-view="journey">✈<span>Journey</span></button><button class="palm" data-view="concierge">↟</button><button data-view="food">✦<span>Food</span></button><button data-view="legacy">▣<span>Legacy</span></button></nav>
+    <nav class="bottom-nav glass">
+      <button class="active" data-view="home">⌂<span>Home</span></button>
+      <button data-view="journey">✈<span>Journey</span></button>
+      <button class="center" data-view="home">✦</button>
+      <button data-view="memories">▧<span>Memories</span></button>
+      <button data-view="concierge">◌<span>Concierge</span></button>
+    </nav>
+  </div>
+  <div id="toast" role="status"></div>
   <script src="app.js"></script>
 </body>
 </html>

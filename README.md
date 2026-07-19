@@ -1,13 +1,6 @@
-# Patric Journey — JourneyOS 2.1
+# Patric Journey — Design Freeze Build
 
-Upload the complete contents of this folder to the root of the GitHub repository.
-Cloudflare Pages will deploy automatically.
+This build implements the approved visual direction without redesigning it.
 
-Included improvements:
-- premium hero asset stored locally
-- installable PWA preparation
-- offline cache
-- persisted trip essentials checklist
-- smarter concierge demo replies
-- intro shown once per browser session
-- mobile refinements
+## Deploy
+Upload all files and the `assets` folder to the repository root. Cloudflare Pages deploys automatically.
