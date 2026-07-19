@@ -1,14 +1,10 @@
-# Patric Journey — Genesis
+# Patric Journey — Live Build
 
-Static premium release candidate for Cloudflare Pages/Workers static hosting.
+Upload these four files to the root of the GitHub repository `patric-journey`:
 
-## Deploy
-Upload the folder contents as a static site, or connect the folder/repository to Cloudflare Pages.
-
-## Files
 - index.html
 - styles.css
 - app.js
+- README.md
 
-## Personal assets
-The hero currently uses an external cinematic beach image. Replace `.hero-photo` in `styles.css` with Patric's original double-exposure portrait once the source image is placed in `assets/patric-hero.jpg`.
+This is a static, mobile-first JourneyOS build for Cloudflare Workers/Pages.
