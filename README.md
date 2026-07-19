@@ -1,10 +1,13 @@
-# Patric Journey — Live Build
+# Patric Journey — JourneyOS 2.1
 
-Upload these four files to the root of the GitHub repository `patric-journey`:
+Upload the complete contents of this folder to the root of the GitHub repository.
+Cloudflare Pages will deploy automatically.
 
-- index.html
-- styles.css
-- app.js
-- README.md
-
-This is a static, mobile-first JourneyOS build for Cloudflare Workers/Pages.
+Included improvements:
+- premium hero asset stored locally
+- installable PWA preparation
+- offline cache
+- persisted trip essentials checklist
+- smarter concierge demo replies
+- intro shown once per browser session
+- mobile refinements
