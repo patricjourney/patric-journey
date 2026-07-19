@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090b0f" />
+  <title>Patric Journey — Genesis</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-orbit"></div>
+    <div class="intro-copy">
+      <div class="eyebrow">PATRIC JOURNEY</div>
+      <h1>Your next story<br>begins now.</h1>
+      <div class="signature">Patric Bize</div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Patric Journey Home">
+      <span class="brand-mark">↟</span>
+      <span><b>PATRIC</b><small>JOURNEY</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="live"><i></i> Genesis Live</span>
+      <button class="avatar" aria-label="Profil">PB</button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero panel">
+      <div class="hero-photo"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <div class="eyebrow">WELCOME HOME</div>
+        <h2>Welcome back,<br><em>Patric.</em></h2>
+        <p>Your next adventure is <strong>Thailand 2026</strong></p>
+        <div class="hero-stats">
+          <div><b id="countdown">135</b><span>DAYS TO GO</span></div>
+          <div><b>4</b><span>DESTINATIONS</span></div>
+          <div><b>28</b><span>DAYS AWAY</span></div>
+        </div>
+      </div>
+      <button class="scroll-cue" onclick="document.querySelector('#dashboard').scrollIntoView({behavior:'smooth'})" aria-label="Zum Dashboard">↓</button>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+      <article class="panel globe-card">
+        <div class="section-head"><span>CINEMATIC GLOBE</span><span class="live"><i></i> LIVE</span></div>
+        <div class="globe-wrap">
+          <div class="globe"><div class="route"></div><span class="pin pin-zrh">ZRH</span><span class="pin pin-pqc">PQC</span></div>
+        </div>
+        <div class="flight-strip">
+          <div><small>NEXT JOURNEY</small><strong>Zürich → Bangkok → Phu Quoc</strong></div>
+          <button>View journey <span>→</span></button>
+        </div>
+      </article>
+
+      <article class="panel concierge-card">
+        <div class="section-head"><span>YOUR CONCIERGE</span><span>● ONLINE</span></div>
+        <div class="concierge-copy">
+          <small>GOOD AFTERNOON, PATRIC.</small>
+          <h3>Everything is beautifully on track.</h3>
+          <p>Your Phu Quoc resort is confirmed. I have also prepared your arrival flow from Bangkok to Long Beach.</p>
+        </div>
+        <div class="concierge-actions">
+          <button><span>☀</span><div><b>Golden Hour</b><small>Phu Quoc · 17:42</small></div><i>→</i></button>
+          <button><span>✦</span><div><b>Next move</b><small>Confirm airport transfer</small></div><i>→</i></button>
+        </div>
+      </article>
+
+      <article class="panel journey-card">
+        <div class="section-head"><span>JOURNEY TIMELINE</span><button>View all</button></div>
+        <div class="timeline">
+          <div class="event active"><time>01 DEC</time><div><b>The journey begins</b><small>Etihad Business · ZRH 21:35 → AUH</small></div><span>04A</span></div>
+          <div class="event"><time>02 DEC</time><div><b>Arrival in Bangkok</b><small>AUH 08:45 → BKK 18:00</small></div><span>08A</span></div>
+          <div class="event"><time>04 DEC</time><div><b>Island chapter</b><small>Bangkok → Phu Quoc · 13:15</small></div><span>9G702</span></div>
+          <div class="event"><time>12 DEC</time><div><b>Marina days</b><small>Phu Quoc → Bangkok · onward to Si Racha</small></div><span>5 nights</span></div>
+        </div>
+      </article>
+
+      <article class="panel stay-card image-card">
+        <div class="image-overlay"></div>
+        <div class="section-head"><span>YOUR HOME IN PARADISE</span><span>CONFIRMED</span></div>
+        <div class="image-copy">
+          <small>04–12 DECEMBER 2026</small>
+          <h3>WorldHotels Long Beach Resort</h3>
+          <p>Phu Quoc · Deluxe King Garden View · 8 nights</p>
+          <div class="price"><span>Paid</span><b>CHF 1'242.11</b></div>
+        </div>
+      </article>
+
+      <article class="panel budget-card">
+        <div class="section-head"><span>JOURNEY BUDGET</span><span>CHF</span></div>
+        <div class="budget-total"><small>RECORDED COSTS</small><b>CHF 4'526.52</b><span>+ THB 4'400 open</span></div>
+        <div class="budget-bars">
+          <div><label><span>Flights</span><b>CHF 2'937.64</b></label><i style="--w:65%"></i></div>
+          <div><label><span>Hotels</span><b>CHF 1'775.51</b></label><i style="--w:39%"></i></div>
+          <div><label><span>Insurance</span><b>CHF 8.51</b></label><i style="--w:4%"></i></div>
+        </div>
+      </article>
+
+      <article class="panel memories-card">
+        <div class="memories-photo"></div><div class="image-overlay"></div>
+        <div class="memories-copy"><small>THE LEGACY COLLECTION</small><h3>Your story is waiting.</h3><p>Thailand 2026 · Collection No. 01</p><button>Open Storybook <span>→</span></button></div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Hauptnavigation">
+    <a class="active" href="#home">⌂<span>Home</span></a>
+    <a href="#dashboard">✈<span>Journey</span></a>
+    <button class="palm" aria-label="Patric Journey">↟</button>
+    <a href="#dashboard">✦<span>Concierge</span></a>
+    <a href="#dashboard">▣<span>Legacy</span></a>
+  </nav>
+
+  <footer><div class="signature">Patric Bize</div><small>AUTHENTICATED BY PATRIC JOURNEY · GENESIS</small></footer>
+  <script src="app.js"></script>
+</body>
+</html>
