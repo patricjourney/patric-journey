@@ -134,10 +134,11 @@
     background:var(--midnight);padding:6vh 6vw 2vh;display:flex;justify-content:center;
   }
   .concierge-card{
-    max-width:640px;width:100%;display:flex;gap:18px;align-items:flex-start;
+    max-width:640px;width:100%;
     background:linear-gradient(150deg, #141b21, #0d1318);
     border:1px solid var(--hair);border-radius:4px;padding:26px 28px;
   }
+  .con-top{display:flex;gap:18px;align-items:flex-start;}
   .con-avatar{
     flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--champagne);
     display:flex;align-items:center;justify-content:center;color:var(--champagne);font-size:13px;
@@ -145,6 +146,22 @@
   .con-greeting{font-family:var(--serif);font-size:18px;color:var(--ivory);}
   .con-main{margin-top:6px;font-size:14px;color:var(--warm-sand);line-height:1.6;}
   .con-sub{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;line-height:1.7;}
+
+  .con-latest{margin-top:18px;}
+  .con-latest.has-photos{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  }
+  .con-latest-photo{aspect-ratio:1/1;border-radius:2px;overflow:hidden;background:#0a1116;}
+  .con-latest-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .con-latest-empty{
+    font-family:var(--mono);font-size:10.5px;color:var(--muted);opacity:.75;
+    border:1px dashed var(--hair);border-radius:2px;padding:12px 14px;
+  }
+  .con-updated{
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--muted);opacity:.65;
+    display:flex;justify-content:space-between;
+  }
 
   /* ---------- WORLD JOURNEY ---------- */
   .world-sec{background:var(--midnight);padding:10vh 6vw 12vh;}
@@ -216,6 +233,30 @@
   }
   .footer-designed{display:inline-flex;align-items:center;gap:8px;}
   .footer-sign{height:18px;width:auto;vertical-align:middle;filter:drop-shadow(0 0 4px rgba(205,168,106,.35));opacity:.95;}
+
+  /* ---------- DESTINATION GUIDE ---------- */
+  .guide-sec{background:var(--midnight);padding:10vh 6vw 4vh;}
+  .guide-panel{display:none;}
+  .guide-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:28px;animation:rise .5s ease forwards;}
+  .guide-block{border:1px solid var(--hair);border-radius:3px;padding:20px 22px;}
+  .guide-block h4{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--champagne);
+    margin-bottom:10px;
+  }
+  .guide-block p{color:var(--muted);font-size:14px;line-height:1.7;}
+  .guide-weather-note{font-family:var(--mono);font-size:9.5px;color:var(--muted);opacity:.6;margin-top:8px;}
+  .guide-block ul{margin:0;padding-left:18px;color:var(--warm-sand);font-size:14px;line-height:1.8;}
+  .guide-links{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+  .guide-links a{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ivory);text-decoration:none;
+    border:1px solid var(--hair);padding:8px 14px;border-radius:2px;transition:border-color .3s, color .3s;
+  }
+  .guide-links a:hover{border-color:var(--champagne);color:var(--champagne);}
+  .guide-source{font-family:var(--mono);font-size:9.5px;color:var(--muted);opacity:.7;margin-top:16px;grid-column:1/-1;}
+
+  @media (max-width:860px){
+    .guide-panel.active{grid-template-columns:1fr;}
+  }
 
   /* ---------- LEGACY COLLECTION / MEMORIES ---------- */
   .legacy-sec{background:var(--deep-ocean);padding:10vh 6vw 12vh;}
@@ -333,12 +374,16 @@
 <!-- ============ CONCIERGE ============ -->
 <section class="concierge-sec">
   <div class="concierge-card" id="concierge">
-    <div class="con-avatar">◆</div>
-    <div class="con-body">
-      <div class="con-greeting" id="conGreeting">Good evening, Patric.</div>
-      <div class="con-main" id="conMain">Alles bereit.</div>
-      <div class="con-sub" id="conSub"></div>
+    <div class="con-top">
+      <div class="con-avatar">◆</div>
+      <div class="con-body">
+        <div class="con-greeting" id="conGreeting">Good evening, Patric.</div>
+        <div class="con-main" id="conMain">Alles bereit.</div>
+        <div class="con-sub" id="conSub"></div>
+      </div>
     </div>
+    <div class="con-latest" id="conLatest"></div>
+    <div class="con-updated" id="conUpdated"></div>
   </div>
 </section>
 
@@ -358,7 +403,7 @@
   <div class="map-wrap" id="mapWrap">
     <div class="globe-stage" id="globeStage">
       <div class="globe-labels" id="globeLabels"></div>
-      <div class="globe-caption">Zürich → Abu Dhabi → <b>Bangkok</b> → <b>Phu Quoc</b> → Si Racha → Hua Hin → Bangkok</div>
+      <div class="globe-caption">Zürich ✈ Abu Dhabi ✈ <b>Bangkok</b> ✈ <b>Phu Quoc</b> ✈ Bangkok 🚐 Si Racha 🚐 Hua Hin 🚐 Bangkok</div>
       <div class="globe-fallback" id="globeFallback">Diese Ansicht benötigt WebGL.<br>Bitte in einem aktuellen Browser öffnen.</div>
     </div>
 
@@ -393,16 +438,34 @@
         <div><div class="jl-place">Bangkok → Abu Dhabi → Zürich</div><div class="jl-meta">Etihad Business · 29 Dec</div></div>
         <div class="jl-nights">Flight</div>
       </div>
-
-      <div class="journey-foot">Open items: Vietnam e-Visa (evisa.gov.vn), 3 private road transfers to confirm.</div>
     </div>
+  </div>
+</section>
+
+<!-- ============ DESTINATION GUIDE ============ -->
+<section class="guide-sec">
+  <div class="world-head">
+    <div class="chapter-tag">Chapter 03</div>
+    <div class="chapter-title">Know before<br><em>you go.</em></div>
+    <p class="legacy-intro">Wetter, Kultur und Empfehlungen für jeden Stopp — Dezember-Durchschnittswerte, keine Live-Vorhersage.</p>
+  </div>
+
+  <div class="legacy-wrap">
+    <div class="legacy-tabs" id="guideTabs">
+      <button class="legacy-tab active" data-key="bkk1">Bangkok<span>Divalux</span></button>
+      <button class="legacy-tab" data-key="pqc">Phu Quoc<span>Long Beach</span></button>
+      <button class="legacy-tab" data-key="sri">Si Racha<span>Novotel Marina</span></button>
+      <button class="legacy-tab" data-key="hua">Hua Hin<span>Putahracsa</span></button>
+      <button class="legacy-tab" data-key="bkk2">Bangkok<span>SKYVIEW</span></button>
+    </div>
+    <div class="guide-panels" id="guidePanels"></div>
   </div>
 </section>
 
 <!-- ============ LEGACY COLLECTION / MEMORIES ============ -->
 <section class="legacy-sec" id="sec-2">
   <div class="world-head">
-    <div class="chapter-tag">Chapter 03</div>
+    <div class="chapter-tag">Chapter 04</div>
     <div class="chapter-title">Every stop,<br><em>remembered.</em></div>
     <p class="legacy-intro">Collect moments. Remember them forever. Grouped by where you were, captioned by when.</p>
   </div>
@@ -515,17 +578,19 @@
       mainEl.textContent = `Vor der Reise noch am wichtigsten: ${urgent.label}.`;
       subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} offene Punkte insgesamt.`;
     } else if(now <= tripEnd){
+      const dayNum = Math.floor((now - tripStart) / 86400000) + 1;
+      const totalDays = Math.round((tripEnd - tripStart) / 86400000) + 1;
       const current = TRIP.find(s => now >= new Date(s.start) && now < new Date(s.end));
       if(current){
         const sunsetUTC = getSunset(now, current.lat, current.lon);
         const goldenHour = fmtLocalTime(sunsetUTC, current.tz);
         const nextIdx = TRIP.indexOf(current) + 1;
         const next = TRIP[nextIdx];
-        mainEl.textContent = `Du bist gerade in ${current.place} — ${current.hotel}.`;
+        mainEl.textContent = `Tag ${dayNum} von ${totalDays} — du bist in ${current.place}, ${current.hotel}.`;
         subEl.textContent = `🌅 Golden Hour heute ca. ${goldenHour} Uhr Ortszeit` +
           (next ? `  ·  Weiter geht's nach ${next.place} am ${new Date(next.start).toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})}.` : '  ·  Letzte Station dieser Reise.');
       } else {
-        mainEl.textContent = 'Unterwegs — geniess die Reise.';
+        mainEl.textContent = `Tag ${dayNum} von ${totalDays} — unterwegs. Geniess die Reise.`;
         subEl.textContent = '';
       }
     } else {
@@ -626,7 +691,7 @@
         ? `<div class="legacy-grid">${m.photos.map(p => `
             <div class="legacy-photo" data-src="${p.src}" data-caption="${m.place} · ${p.date || m.range}">
               <img src="${p.src}" alt="${m.place}" loading="lazy">
-              <div class="cap">${p.date || ''}</div>
+              <div class="cap">${p.date || ''}${p.note ? '<br>'+p.note : ''}</div>
             </div>`).join('')}</div>`
         : `<div class="legacy-empty">
              <div class="icon">◆</div>
@@ -647,6 +712,130 @@
     });
   }
   renderLegacyPanels();
+
+  // ---------- Concierge extras: last-updated + latest photos (needs MEMORIES) ----------
+  const SITE_UPDATED = '2026-07-21'; // bump this each time new photos/content are added
+
+  function renderConciergeExtras(){
+    const allPhotos = MEMORIES.flatMap(m => m.photos.map(p => ({ ...p, place:m.place })));
+    allPhotos.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    const latest = allPhotos.slice(0,3);
+
+    const latestEl = document.getElementById('conLatest');
+    if(latest.length){
+      latestEl.className = 'con-latest has-photos';
+      latestEl.innerHTML = latest.map(p => `
+        <div class="con-latest-photo"><img src="${p.src}" alt="${p.place}" loading="lazy"></div>
+      `).join('');
+    } else {
+      latestEl.className = 'con-latest';
+      latestEl.innerHTML = `<div class="con-latest-empty">📸 Noch keine Fotos — kommen während der Reise.</div>`;
+    }
+
+    const updatedStr = new Date(SITE_UPDATED).toLocaleDateString('de-CH', {day:'2-digit', month:'long', year:'numeric'});
+    document.getElementById('conUpdated').innerHTML =
+      `<span>Zuletzt aktualisiert: ${updatedStr}</span><span>${allPhotos.length} Foto${allPhotos.length===1?'':'s'}</span>`;
+  }
+  renderConciergeExtras();
+
+  // ---------- Destination Guide (real researched content, cited sources) ----------
+  const GUIDE = [
+    { key:'bkk1', place:'Bangkok', hotel:'Divalux Resort & Spa', lat:13.7563, lon:100.5018, checkin:'2026-12-02',
+      weather:'~31°C tags / 22°C nachts, Trockenzeit, kaum Regen',
+      sights:['Grand Palace & Wat Phra Kaew','Wat Arun bei Sonnenuntergang','Chatuchak Weekend Market (nur Sa/So)'],
+      food:'Hotel liegt nahe Suvarnabhumi Airport, etwas ausserhalb — für Street Food lohnt sich eine Fahrt Richtung Sukhumvit.',
+      hotelUrl:'https://divaluxhotel.com/', mapsUrl:'https://maps.google.com/?q=Divalux+Resort+Spa+Bangkok+Suvarnabhumi' },
+    { key:'pqc', place:'Phu Quoc', hotel:'Worldhotels Long Beach Resort', lat:10.2202, lon:103.9574, checkin:'2026-12-04',
+      weather:'~30°C tags / 22°C nachts, Trockenzeit beginnt, Meer ~28°C',
+      sights:['Sao Beach','Duong Dong Night Market','Phu Quoc National Park'],
+      food:'Bun Ken und Bun Quay probieren — beide Spezialitäten gibt es frisch auf dem Nachtmarkt in Duong Dong.',
+      hotelUrl:'https://www.worldhotels.com/', mapsUrl:'https://maps.google.com/?q=WorldHotels+Long+Beach+Resort+Phu+Quoc' },
+    { key:'sri', place:'Si Racha', hotel:'Novotel Marina Sriracha', lat:13.1725, lon:100.9245, checkin:'2026-12-12',
+      weather:'~30°C tags / 21°C nachts, trocken',
+      sights:['Koh Loi Tempelinsel (per Fussgängerbrücke erreichbar)','Sriracha Tiger Zoo','Marina-Promenade'],
+      food:'Si Racha ist die Heimat der "Sriracha"-Chilisauce — frische Meeresfrüchte direkt an der Marina.',
+      hotelUrl:'https://all.accor.com/', mapsUrl:'https://maps.google.com/?q=Novotel+Marina+Sriracha' },
+    { key:'hua', place:'Hua Hin', hotel:'Putahracsa', lat:12.5684, lon:99.9577, checkin:'2026-12-17',
+      weather:'~30°C tags / 24°C nachts — die trockenste Zeit des Jahres',
+      sights:['Hua Hin Night Market','Cicada Market (Fr–So abends)','Khao Takiab Affenberg & Tempel'],
+      food:'Chao Lay Seafood direkt am Pier, dazu der Nachtmarkt für lokale Thai-Küche.',
+      hotelUrl:'https://www.putahracsa.com/', mapsUrl:'https://maps.google.com/?q=Putahracsa+Hua+Hin' },
+    { key:'bkk2', place:'Bangkok', hotel:'SKYVIEW Hotel Em District', lat:13.7563, lon:100.5018, checkin:'2026-12-23',
+      weather:'~31°C tags / 22°C nachts, trocken, festliche Stimmung zum Jahresende',
+      sights:['EmQuartier & Emporium (Em District)','Benchasiri Park','Rooftop-Bars: Vanilla Sky, The Ledger Room'],
+      food:'PRIME im Hotel (7. Stock) für Fine Dining, Sukhumvit Soi 38 für Street Food.',
+      hotelUrl:'https://skyviewhotel.com/', mapsUrl:'https://maps.google.com/?q=SKYVIEW+Hotel+Bangkok+Em+District' }
+  ];
+
+  const guidePanels = document.getElementById('guidePanels');
+  const guideTabs = document.getElementById('guideTabs');
+
+  guidePanels.innerHTML = GUIDE.map((g,i) => `
+    <div class="guide-panel${i===0?' active':''}" data-key="${g.key}">
+      <div class="guide-block" id="weatherBlock-${g.key}">
+        <h4>☀ Wetter im Dezember</h4>
+        <p>${g.weather}</p>
+        <div class="guide-weather-note">Dezember-Durchschnitt — keine Live-Vorhersage möglich (zu weit im Voraus).</div>
+      </div>
+      <div class="guide-block">
+        <h4>◆ Sehenswert</h4>
+        <ul>${g.sights.map(s=>`<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div class="guide-block">
+        <h4>🍽 Essen & Kultur</h4>
+        <p>${g.food}</p>
+      </div>
+      <div class="guide-block">
+        <h4>🏨 ${g.hotel}</h4>
+        <div class="guide-links">
+          <a href="${g.hotelUrl}" target="_blank" rel="noopener">Hotel-Website ↗</a>
+          <a href="${g.mapsUrl}" target="_blank" rel="noopener">Google Maps ↗</a>
+        </div>
+      </div>
+      <div class="guide-source">Wetterangaben: Dezember-Durchschnittswerte (u.a. weather-and-climate.com, vinwonders.com, wanderlog.com), sofern keine Live-Vorhersage verfügbar ist.</div>
+    </div>
+  `).join('');
+
+  // Progressive upgrade: once a stay's check-in falls within the ~16-day forecast
+  // window, replace the seasonal average with a real Open-Meteo forecast — no
+  // API key, no backend, works directly from the browser.
+  async function upgradeToLiveWeather(g){
+    try{
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${g.lat}&longitude=${g.lon}` +
+        `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode` +
+        `&timezone=auto&start_date=${g.checkin}&end_date=${g.checkin}`;
+      const res = await fetch(url);
+      if(!res.ok) return;
+      const data = await res.json();
+      const d = data.daily;
+      if(!d || !d.time || !d.time.length || d.temperature_2m_max[0] == null) return; // date out of forecast range
+
+      const block = document.getElementById(`weatherBlock-${g.key}`);
+      if(!block) return;
+      const tmax = Math.round(d.temperature_2m_max[0]);
+      const tmin = Math.round(d.temperature_2m_min[0]);
+      const rain = d.precipitation_probability_max[0];
+      block.querySelector('h4').textContent = '☀ Live-Vorhersage';
+      block.querySelector('p').textContent =
+        `${tmax}°C tags / ${tmin}°C nachts am ${new Date(g.checkin).toLocaleDateString('de-CH',{day:'2-digit',month:'long'})}` +
+        (rain != null ? ` · Regenwahrscheinlichkeit ${rain}%` : '');
+      block.querySelector('.guide-weather-note').textContent = 'Live-Wetterdaten via Open-Meteo, gerade eben abgerufen.';
+    } catch(e){
+      // network hiccup or out of range — the seasonal average stays visible, no harm done
+    }
+  }
+  GUIDE.forEach(upgradeToLiveWeather);
+
+  guideTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('.legacy-tab');
+    if(!btn) return;
+    guideTabs.querySelectorAll('.legacy-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const key = btn.dataset.key;
+    guidePanels.querySelectorAll('.guide-panel').forEach(p => {
+      p.classList.toggle('active', p.dataset.key === key);
+    });
+  });
 
   legacyTabs.addEventListener('click', (e) => {
     const btn = e.target.closest('.legacy-tab');
@@ -696,14 +885,27 @@ const labelsLayer = document.getElementById('globeLabels');
 const fallback = document.getElementById('globeFallback');
 
 const WAYPOINTS = [
-  { key:'zrh',  name:'ZÜRICH',   sub:'01 Dec · Departure',                lat:47.3769, lon:8.5417  },
-  { key:'auh',  name:'ABU DHABI',sub:'Transit · Etihad 8DOAAJ',           lat:24.4539, lon:54.3773 },
-  { key:'bkk1', name:'BANGKOK',  sub:'02 Dec · Divalux · 2 nights',       lat:13.7563, lon:100.5018},
-  { key:'pqc',  name:'PHU QUOC', sub:'04–12 Dec · Long Beach Resort',     lat:10.2202, lon:103.9574},
-  { key:'sri',  name:'SI RACHA', sub:'12–17 Dec · Novotel Marina',        lat:13.1725, lon:100.9245},
-  { key:'hua',  name:'HUA HIN',  sub:'17–23 Dec · Putahracsa',            lat:12.5684, lon:99.9577 },
-  { key:'bkk2', name:'BANGKOK',  sub:'23–29 Dec · SKYVIEW Em District',   lat:13.7563, lon:100.5018}
+  { key:'zrh',   name:'ZÜRICH',   sub:'01 Dec · Departure',                lat:47.3769, lon:8.5417  },
+  { key:'auh',   name:'ABU DHABI',sub:'Transit · Etihad 8DOAAJ',           lat:24.4539, lon:54.3773 },
+  { key:'bkk1',  name:'BANGKOK',  sub:'02 Dec · Divalux · 2 nights',       lat:13.7563, lon:100.5018},
+  { key:'pqc',   name:'PHU QUOC', sub:'04–12 Dec · Long Beach Resort',     lat:10.2202, lon:103.9574},
+  { key:'bkkT',  name:'BANGKOK',  sub:'12 Dec · Transit',                  lat:13.7563, lon:100.5018},
+  { key:'sri',   name:'SI RACHA', sub:'12–17 Dec · Novotel Marina',        lat:13.1725, lon:100.9245},
+  { key:'hua',   name:'HUA HIN',  sub:'17–23 Dec · Putahracsa',            lat:12.5684, lon:99.9577 },
+  { key:'bkk2',  name:'BANGKOK',  sub:'23–29 Dec · SKYVIEW Em District',   lat:13.7563, lon:100.5018}
 ];
+
+// travel mode for each leg (WAYPOINTS[i] -> WAYPOINTS[i+1]) — plane for flights, car for road transfers
+const LEG_MODES = ['flight','flight','flight','flight','car','car','car'];
+
+// date ranges used to find "where Patric is right now" for the pulsing marker
+const STAY_RANGES = {
+  bkk1: ['2026-12-02','2026-12-04'],
+  pqc:  ['2026-12-04','2026-12-12'],
+  sri:  ['2026-12-12','2026-12-17'],
+  hua:  ['2026-12-17','2026-12-23'],
+  bkk2: ['2026-12-23','2026-12-29']
+};
 
 let renderer, scene, camera, globeGroup, earthMesh, atmosphere;
 let animId = null;
@@ -805,16 +1007,18 @@ function init(){
     // ---- Route path (per-leg curves, kept as Curve objects for smooth travel) ----
     const legs = [];
     for(let i=0;i<WAYPOINTS.length-1;i++){
+      const mode = LEG_MODES[i];
       const a = latLonToVector3(WAYPOINTS[i].lat, WAYPOINTS[i].lon, RADIUS);
       const b = latLonToVector3(WAYPOINTS[i+1].lat, WAYPOINTS[i+1].lon, RADIUS);
       const mid = a.clone().add(b).multiplyScalar(0.5);
       const dist = a.distanceTo(b);
-      mid.normalize().multiplyScalar(RADIUS + Math.max(10, dist*0.35));
+      const elevation = mode === 'car' ? Math.max(2, dist*0.12) : Math.max(10, dist*0.35);
+      mid.normalize().multiplyScalar(RADIUS + elevation);
       const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
       const angleDeg = THREE.MathUtils.radToDeg(
         Math.acos(THREE.MathUtils.clamp(a.clone().normalize().dot(b.clone().normalize()), -1, 1))
       );
-      legs.push({ curve, from:WAYPOINTS[i], to:WAYPOINTS[i+1], toIndex:i+1, angleDeg,
+      legs.push({ curve, from:WAYPOINTS[i], to:WAYPOINTS[i+1], toIndex:i+1, angleDeg, mode,
                   points: curve.getPoints(60) });
     }
 
@@ -826,7 +1030,7 @@ function init(){
     globeGroup.add(new THREE.Line(pathGeo, pathMat));
     const ptsPerLeg = 61;
 
-    // ---- Small plane (cone pointing along direction of travel) ----
+    // ---- Vehicles: gold cone plane for flights, sand-coloured car for road transfers ----
     const plane = new THREE.Group();
     const nose = new THREE.Mesh(
       new THREE.ConeGeometry(0.9, 3.4, 10),
@@ -836,6 +1040,15 @@ function init(){
     plane.add(nose);
     plane.visible = false;
     globeGroup.add(plane);
+
+    const car = new THREE.Group();
+    const carBody = new THREE.Mesh(
+      new THREE.BoxGeometry(1.0, 0.7, 2.2),
+      new THREE.MeshBasicMaterial({ color:0xd9c4a0 })
+    );
+    car.add(carBody);
+    car.visible = false;
+    globeGroup.add(car);
 
     const markerGroup = new THREE.Group();
     globeGroup.add(markerGroup);
@@ -851,6 +1064,24 @@ function init(){
       labelsLayer.appendChild(label);
       return { wp, pos, mesh:m, label, revealed:false };
     });
+
+    // "You are here" pulsing ring — only lights up for whichever stay covers today's date
+    const todayStr = new Date().toISOString().slice(0,10);
+    const currentKey = Object.keys(STAY_RANGES).find(k => todayStr >= STAY_RANGES[k][0] && todayStr < STAY_RANGES[k][1]);
+    let pulseRing = null;
+    if(currentKey){
+      const idx = WAYPOINTS.findIndex(wp => wp.key === currentKey);
+      if(idx >= 0){
+        const ringPos = latLonToVector3(WAYPOINTS[idx].lat, WAYPOINTS[idx].lon, RADIUS*1.01);
+        pulseRing = new THREE.Mesh(
+          new THREE.RingGeometry(1.6, 2.0, 32),
+          new THREE.MeshBasicMaterial({ color:0xeccb8e, transparent:true, opacity:0.9, side:THREE.DoubleSide })
+        );
+        pulseRing.position.copy(ringPos);
+        pulseRing.lookAt(ringPos.clone().multiplyScalar(2));
+        markerGroup.add(pulseRing);
+      }
+    }
 
     function azimuthFor(vec){ return Math.atan2(vec.x, vec.z); }
     const rotStart = -azimuthFor(latLonToVector3(WAYPOINTS[0].lat, WAYPOINTS[0].lon, 1));
@@ -886,7 +1117,15 @@ function init(){
       });
     }
 
-    function renderFrame(){ renderer.render(scene, camera); updateLabels(); }
+    function renderFrame(){
+      if(pulseRing){
+        const t = (performance.now() % 2200) / 2200;
+        pulseRing.scale.setScalar(1 + t*0.8);
+        pulseRing.material.opacity = 0.9 * (1 - t);
+      }
+      renderer.render(scene, camera);
+      updateLabels();
+    }
 
     // generic tween helper — resolves after `ms`, calling update(progress 0..1) each frame
     function tween(ms, update, easing = p => 1 - Math.pow(1-p, 2)){
@@ -942,18 +1181,19 @@ function init(){
           setCamDist(camDist);
         });
 
-        // fly the plane along the leg, drawing the path as it goes
-        plane.visible = true;
-        await tween(1500, p=>{
+        // travel the leg with the right vehicle — plane for flights, car for road transfers
+        const vehicle = leg.mode === 'car' ? car : plane;
+        vehicle.visible = true;
+        await tween(leg.mode === 'car' ? 900 : 1500, p=>{
           const pos = leg.curve.getPoint(p);
           const tangent = leg.curve.getTangent(p);
-          plane.position.copy(pos);
-          plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tangent.normalize());
+          vehicle.position.copy(pos);
+          vehicle.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tangent.normalize());
           pathGeo.setDrawRange(0, drawn + Math.max(1, Math.floor(ptsPerLeg*p)));
-        }, p => p); // linear, constant flight speed feel
+        }, p => p); // linear, constant speed feel
         drawn += ptsPerLeg;
         pathGeo.setDrawRange(0, drawn);
-        plane.visible = false;
+        vehicle.visible = false;
 
         revealMarker(leg.toIndex);
         await tween(650, ()=>{}); // brief pause at the new city
