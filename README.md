@@ -1,39 +1,35 @@
-# Patric Journey v0.1
+# Patric Journey
 
-First production-style React implementation of the approved Welcome Home design.
+A premium digital travel journal. Every journey becomes a story.
 
-## Included
-- Responsive living hero
-- Time-aware greeting
-- Live countdown to 1 December 2026
-- Parallax motion
-- Animated multi-stroke SVG signature component
-- Real Thailand 2026 route and summary data
-- Bottom navigation shell
-- Static Vite build suitable for Cloudflare Pages
+## Current build (v1 — scroll prototype)
 
-## Add the final portrait
-Place Patric's approved double-exposure image here:
+Single-file static site, no build step required.
 
-`public/hero-patric.jpg`
+- **Welcome Home** — authentic double-exposure portrait, live countdown to the next journey, time-aware greeting
+- **Signature Ceremony** — real handwritten signature, traced from the original artwork into vector strokes (skeletonized + graph-traced, left-to-right stroke order), animated with a synchronized pen-tip light
+- **World Journey Ceremony** — real 3D globe (Three.js), NASA night-lights texture, live flight path drawn from real GPS coordinates for the current Southeast Asia Grand Tour 2026 route
 
-The app includes a gradient fallback so it still renders before the final image is added.
+## Structure
 
-## Exact signature
-`src/components/SignatureAnimation.tsx` already animates multiple SVG strokes.
-Replace the placeholder path data with traced SVG paths from Patric's original signature to preserve the exact handwriting.
-
-## Local development
-```bash
-npm install
-npm run dev
+```
+index.html          — the entire experience (HTML/CSS/JS, ES module imports for Three.js via CDN)
+assets/
+  hero-portrait.jpg  — Welcome Home background
+  earth-lights.jpg   — globe night-lights texture
+  earth-specular.jpg — globe land/ocean map
+  earth-normal.jpg   — globe relief map
+  signature.svg      — standalone vector signature (traced, gold stroke)
 ```
 
-## Production build
-```bash
-npm run build
-```
+## Deploy
 
-Cloudflare Pages:
-- Build command: `npm run build`
-- Output directory: `dist`
+Cloudflare Pages: no build command needed. Root directory `/`, output directory `/`.
+
+## Previous version
+
+The earlier React/Vite "Living Hero v0.3" build (bottom nav, PWA manifest, service worker,
+placeholder signature) is preserved at git tag `backup-v0.3-living-hero` if any of that
+functionality needs to be ported forward.
+
+Designed by Patric Bize · Built with Claude.
