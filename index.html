@@ -94,7 +94,7 @@
     margin-top:44px;display:inline-flex;align-items:center;gap:12px;
     color:var(--ivory);text-decoration:none;font-size:13px;letter-spacing:.06em;
     padding:12px 4px;border-bottom:1px solid var(--hair);
-    opacity:0;animation:rise 1s ease forwards;animation-delay:1.05s;
+    opacity:0;animation:rise 1s ease forwards;animation-delay:1.3s;
     transition:border-color .3s;
   }
   .continue:hover{border-color:var(--champagne);}
@@ -116,47 +116,18 @@
   }
   .chapter-title em{font-style:italic;color:var(--warm-sand);}
 
-  /* ---------- SIGNATURE CEREMONY ---------- */
-  .signature-sec{
-    background:radial-gradient(circle at 30% 20%, rgba(205,168,106,.06), transparent 60%), var(--deep-ocean);
-    display:flex;align-items:center;padding:10vh 6vw;
+  /* ---------- HERO SIGNATURE (unframed) ---------- */
+  .hero-signature{
+    margin-top:38px;width:220px;cursor:pointer;
+    opacity:0;animation:rise 1s ease forwards;animation-delay:1.0s;
   }
-  .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center;width:100%;max-width:1240px;margin:0 auto;}
-  .sig-copy p{color:var(--muted);font-size:16px;line-height:1.75;margin-top:22px;max-width:420px;}
-  .sig-quote{
-    font-family:var(--serif);font-style:italic;font-size:22px;color:var(--ivory);margin-top:26px;
-  }
-  .sig-card{
-    background:linear-gradient(160deg, #182129, #0d1419);
-    border:1px solid var(--hair);border-radius:4px;
-    padding:8vh 4vw 6vh;position:relative;overflow:hidden;
-  }
-  .sig-card::before{
-    content:'';position:absolute;inset:0;
-    background:radial-gradient(circle at 70% 30%, rgba(205,168,106,.09), transparent 55%);
-  }
-  .sig-image-wrap{position:relative;width:100%;}
+  .hero-signature svg{width:100%;display:block;overflow:visible;}
   .sig-stroke{
     fill:none;stroke:var(--champagne);stroke-width:9;
     stroke-linecap:round;stroke-linejoin:round;
-    filter:drop-shadow(0 0 10px rgba(205,168,106,.45));
+    filter:drop-shadow(0 0 8px rgba(205,168,106,.5));
   }
   #penTip{filter:drop-shadow(0 0 8px rgba(232,195,142,.9));}
-  .sig-role{
-    position:relative;z-index:2;margin-top:26px;font-family:var(--mono);
-    font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
-  }
-  .sig-name{
-    position:relative;z-index:2;font-family:var(--serif);font-style:italic;color:var(--champagne);
-    font-size:18px;margin-top:2px;
-  }
-  .replay-btn{
-    position:relative;z-index:2;margin-top:30px;
-    background:transparent;border:1px solid var(--hair);color:var(--muted);
-    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    padding:9px 16px;border-radius:2px;cursor:pointer;transition:border-color .3s, color .3s;
-  }
-  .replay-btn:hover{border-color:var(--champagne);color:var(--champagne);}
 
   /* ---------- WORLD JOURNEY ---------- */
   .world-sec{background:var(--midnight);padding:10vh 6vw 12vh;}
@@ -226,7 +197,8 @@
     margin-top:34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
     font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
   }
-  .footer-sign{color:var(--champagne);font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-size:15px;}
+  .footer-designed{display:inline-flex;align-items:center;gap:8px;}
+  .footer-sign{height:18px;width:auto;vertical-align:middle;filter:drop-shadow(0 0 4px rgba(205,168,106,.35));opacity:.95;}
 
   @media (max-width:860px){
     .sig-grid{grid-template-columns:1fr;gap:8vh;}
@@ -248,7 +220,6 @@
   <div class="nav-dots">
     <span class="active" data-sec="0"></span>
     <span data-sec="1"></span>
-    <span data-sec="2"></span>
   </div>
 </nav>
 
@@ -263,40 +234,25 @@
       <div class="cd-unit"><div class="num" id="cd-hours">–</div><div class="lbl">Hours</div></div>
       <div class="cd-unit"><div class="num" id="cd-mins">–</div><div class="lbl">Minutes</div></div>
     </div>
+
+    <div class="hero-signature" id="heroSignature" title="Tap to replay">
+      <svg id="sigSvg" viewBox="92 238 2699 1522" xmlns="http://www.w3.org/2000/svg">
+        <path class="sig-stroke" data-len="10220.5" d="M132.0,853.0 L134.0,809.0 L144.0,766.0 L172.0,702.0 L204.0,650.0 L262.0,575.0 L315.0,519.0 L377.0,464.0 L438.0,417.0 L517.0,365.0 L598.0,322.0 L641.0,304.0 L706.0,284.0 L753.0,278.0 L806.0,282.0 L842.0,296.0 L869.0,319.0 L890.0,353.0 L904.0,390.0 L917.0,445.0 L924.0,494.0 L929.0,599.0 L924.0,770.0 L853.0,773.0 L799.0,781.0 L748.0,794.0 L705.0,810.0 L668.0,829.0 L636.0,855.0 L624.0,873.0 L622.0,896.0 L629.0,910.0 L647.0,928.0 L689.0,956.0 L732.0,976.0 L837.0,1014.0 L727.0,974.0 L669.0,944.0 L647.0,928.0 L625.0,904.0 L622.0,896.0 L624.0,873.0 L636.0,855.0 L668.0,829.0 L705.0,810.0 L742.0,796.0 L799.0,781.0 L842.0,774.0 L925.0,770.0 L904.0,1086.0 L907.0,1104.0 L897.0,1121.0 L877.0,1128.0 L840.0,1160.0 L825.0,1181.0 L819.0,1199.0 L822.0,1222.0 L836.0,1237.0 L859.0,1247.0 L894.0,1251.0 L877.0,1615.0 L877.0,1666.0 L885.0,1720.0 L877.0,1666.0 L877.0,1615.0 L882.0,1463.0 L901.0,1147.0 L901.0,1125.0 L897.0,1121.0 L901.0,1125.0 L901.0,1147.0 L895.0,1250.0 L920.0,1249.0 L958.0,1241.0 L998.0,1226.0 L1032.0,1208.0 L1077.0,1174.0 L1102.0,1149.0 L1134.0,1107.0 L1154.0,1071.0 L1168.0,1037.0 L1174.0,1011.0 L1171.0,999.0 L1147.0,1004.0 L1032.0,1048.0 L969.0,1075.0 L921.0,1100.0 L907.0,1103.0 L921.0,1100.0 L984.0,1068.0 L1086.0,1027.0 L1153.0,1002.0 L1172.0,1000.0 L1180.0,991.0 L1181.0,943.0 L1173.0,904.0 L1160.0,875.0 L1140.0,847.0 L1107.0,818.0 L1067.0,796.0 L1021.0,781.0 L978.0,773.0 L925.0,770.0 L986.0,774.0 L1049.0,789.0 L1093.0,809.0 L1123.0,830.0 L1149.0,858.0 L1173.0,904.0 L1181.0,943.0 L1180.0,991.0 L1171.0,999.0 L1174.0,1003.0 L1173.0,1020.0 L1161.0,1056.0 L1132.0,1110.0 L1102.0,1149.0 L1077.0,1174.0 L1032.0,1208.0 L998.0,1226.0 L958.0,1241.0 L894.0,1251.0 L864.0,1248.0 L844.0,1242.0 L822.0,1222.0 L819.0,1199.0 L832.0,1170.0 L858.0,1142.0 L880.0,1126.0 L897.0,1121.0 L907.0,1104.0 L904.0,1086.0 L925.0,770.0 L929.0,599.0 L924.0,494.0 L917.0,445.0 L904.0,390.0 L890.0,353.0 L869.0,319.0 L842.0,296.0 L806.0,282.0 L753.0,278.0 L706.0,284.0 L641.0,304.0 L598.0,322.0 L536.0,354.0 L465.0,398.0 L388.0,455.0 L331.0,504.0 L280.0,555.0 L243.0,598.0 L204.0,650.0 L172.0,702.0 L144.0,766.0 L134.0,809.0 L132.0,858.0 L135.0,880.0 L143.0,908.0 L157.0,937.0 L170.0,957.0 L197.0,987.0 L229.0,1013.0 L266.0,1036.0 L353.0,1073.0 L505.0,1112.0 L637.0,1135.0 L765.0,1141.0 L637.0,1135.0 L529.0,1117.0 L382.0,1082.0 L344.0,1070.0 L282.0,1044.0 L217.0,1004.0 L170.0,957.0 L143.0,908.0 L135.0,880.0 L132.0,853.0"/>
+        <path class="sig-stroke" data-len="1932.7" d="M1193.0,896.0 L1217.0,894.0 L1280.0,901.0 L1295.0,924.0 L1309.0,934.0 L1315.0,985.0 L1311.0,1017.0 L1295.0,1026.0 L1280.0,1045.0 L1269.0,1050.0 L1264.0,1049.0 L1251.0,1035.0 L1229.0,1056.0 L1219.0,1058.0 L1212.0,1053.0 L1208.0,1036.0 L1209.0,1013.0 L1216.0,989.0 L1234.0,965.0 L1245.0,961.0 L1254.0,963.0 L1259.0,972.0 L1252.0,1036.0 L1258.0,968.0 L1250.0,961.0 L1234.0,965.0 L1221.0,979.0 L1209.0,1013.0 L1209.0,1044.0 L1216.0,1057.0 L1229.0,1056.0 L1251.0,1035.0 L1264.0,1049.0 L1276.0,1048.0 L1295.0,1026.0 L1311.0,1017.0 L1315.0,1021.0 L1316.0,1052.0 L1309.0,1138.0 L1316.0,1052.0 L1316.0,1026.0 L1310.0,1018.0 L1315.0,996.0 L1309.0,938.0 L1313.0,930.0 L1314.0,906.0 L1311.0,898.0 L1288.0,898.0 L1282.0,902.0 L1288.0,898.0 L1313.0,900.0 L1315.0,897.0 L1317.0,832.0 L1315.0,897.0 L1433.0,894.0 L1441.0,886.0 L1440.0,869.0 L1440.0,887.0 L1449.0,893.0 L1463.0,893.0 L1449.0,893.0 L1441.0,886.0 L1428.0,895.0 L1315.0,896.0 L1312.0,899.0 L1313.0,930.0 L1309.0,934.0 L1295.0,924.0 L1280.0,901.0 L1217.0,894.0 L1193.0,896.0"/>
+        <path class="sig-stroke" data-len="1123.9" d="M1342.0,1056.0 L1349.0,995.0 L1345.0,971.0 L1346.0,951.0 L1345.0,971.0 L1349.0,990.0 L1357.0,986.0 L1370.0,968.0 L1381.0,961.0 L1383.0,950.0 L1380.0,962.0 L1387.0,967.0 L1395.0,990.0 L1405.0,1000.0 L1433.0,995.0 L1438.0,961.0 L1436.0,986.0 L1432.0,996.0 L1435.0,999.0 L1436.0,1040.0 L1443.0,1049.0 L1442.0,1055.0 L1444.0,1048.0 L1460.0,1045.0 L1473.0,998.0 L1480.0,989.0 L1492.0,983.0 L1501.0,965.0 L1492.0,983.0 L1477.0,992.0 L1469.0,1007.0 L1460.0,1045.0 L1470.0,1055.0 L1483.0,1055.0 L1493.0,1049.0 L1519.0,1022.0 L1541.0,990.0 L1519.0,1022.0 L1493.0,1049.0 L1483.0,1055.0 L1472.0,1056.0 L1460.0,1045.0 L1443.0,1049.0 L1437.0,1044.0 L1433.0,995.0 L1414.0,1000.0 L1403.0,999.0 L1395.0,990.0 L1387.0,967.0 L1381.0,961.0 L1370.0,968.0 L1357.0,986.0 L1349.0,989.0 L1342.0,1056.0"/>
+        <path class="sig-stroke" data-len="6514.6" d="M1545.0,890.0 L1546.0,856.0 L1560.0,805.0 L1586.0,757.0 L1623.0,708.0 L1671.0,664.0 L1704.0,642.0 L1741.0,626.0 L1765.0,621.0 L1786.0,621.0 L1811.0,629.0 L1833.0,649.0 L1846.0,679.0 L1850.0,724.0 L1843.0,767.0 L1830.0,806.0 L1807.0,850.0 L1782.0,883.0 L1740.0,923.0 L1731.0,939.0 L1714.0,940.0 L1708.0,933.0 L1706.0,681.0 L1707.0,927.0 L1713.0,939.0 L1710.0,944.0 L1701.0,952.0 L1672.0,958.0 L1661.0,971.0 L1645.0,974.0 L1624.0,972.0 L1588.0,957.0 L1568.0,941.0 L1550.0,913.0 L1545.0,890.0 L1550.0,913.0 L1562.0,934.0 L1579.0,951.0 L1609.0,967.0 L1639.0,974.0 L1664.0,970.0 L1674.0,981.0 L1704.0,983.0 L1704.0,955.0 L1701.0,952.0 L1706.0,960.0 L1704.0,983.0 L1707.0,984.0 L1704.0,1046.0 L1708.0,1059.0 L1700.0,1086.0 L1686.0,1093.0 L1700.0,1086.0 L1708.0,1056.0 L1719.0,1053.0 L1750.0,1028.0 L1786.0,1005.0 L1796.0,989.0 L1792.0,983.0 L1707.0,984.0 L1792.0,983.0 L1796.0,988.0 L1821.0,979.0 L1824.0,974.0 L1821.0,962.0 L1809.0,953.0 L1774.0,944.0 L1736.0,942.0 L1733.0,937.0 L1736.0,942.0 L1774.0,944.0 L1809.0,953.0 L1821.0,962.0 L1823.0,976.0 L1828.0,977.0 L1918.0,967.0 L1923.0,977.0 L1923.0,1037.0 L1924.0,1042.0 L1930.0,1046.0 L1929.0,1051.0 L1930.0,1046.0 L1939.0,1043.0 L1954.0,1028.0 L1954.0,1011.0 L1965.0,978.0 L1975.0,968.0 L1987.0,962.0 L2019.0,961.0 L2048.0,962.0 L2048.0,969.0 L2042.0,985.0 L2018.0,1020.0 L1997.0,1039.0 L1979.0,1038.0 L1965.0,1030.0 L1954.0,1028.0 L1965.0,1030.0 L1979.0,1038.0 L1997.0,1039.0 L2006.0,1051.0 L2026.0,1059.0 L2051.0,1056.0 L2063.0,1046.0 L2075.0,1029.0 L2087.0,1024.0 L2093.0,1015.0 L2098.0,992.0 L2111.0,975.0 L2121.0,972.0 L2125.0,966.0 L2122.0,971.0 L2123.0,986.0 L2117.0,998.0 L2109.0,1008.0 L2106.0,1005.0 L2107.0,1010.0 L2093.0,1015.0 L2107.0,1010.0 L2123.0,986.0 L2122.0,971.0 L2111.0,975.0 L2096.0,996.0 L2093.0,1015.0 L2088.0,1023.0 L2100.0,1046.0 L2126.0,1055.0 L2751.0,1055.0 L2134.0,1056.0 L2115.0,1053.0 L2100.0,1046.0 L2089.0,1022.0 L2075.0,1029.0 L2063.0,1046.0 L2051.0,1056.0 L2026.0,1059.0 L2009.0,1053.0 L1996.0,1039.0 L2027.0,1008.0 L2044.0,981.0 L2048.0,962.0 L2054.0,959.0 L2048.0,963.0 L1987.0,962.0 L1975.0,968.0 L1960.0,988.0 L1953.0,1017.0 L1954.0,1028.0 L1939.0,1043.0 L1930.0,1047.0 L1923.0,1037.0 L1923.0,977.0 L1918.0,967.0 L1841.0,977.0 L1828.0,977.0 L1824.0,974.0 L1821.0,979.0 L1796.0,986.0 L1786.0,1005.0 L1750.0,1028.0 L1719.0,1053.0 L1708.0,1057.0 L1704.0,1046.0 L1707.0,984.0 L1674.0,981.0 L1663.0,970.0 L1672.0,958.0 L1701.0,952.0 L1713.0,939.0 L1731.0,939.0 L1740.0,923.0 L1792.0,871.0 L1815.0,837.0 L1830.0,806.0 L1847.0,747.0 L1850.0,701.0 L1841.0,664.0 L1833.0,649.0 L1817.0,633.0 L1786.0,621.0 L1765.0,621.0 L1741.0,626.0 L1704.0,642.0 L1671.0,664.0 L1623.0,708.0 L1594.0,745.0 L1563.0,798.0 L1546.0,856.0 L1545.0,890.0"/>
+        <circle id="penTip" r="14" fill="#eccb8e" opacity="0"/>
+      </svg>
+    </div>
+
     <a href="#sec-1" class="continue"><span class="arrow">↓</span> Continue your story</a>
   </div>
 </section>
 
-<!-- ============ SIGNATURE CEREMONY ============ -->
-<section class="signature-sec" id="sec-1">
-  <div class="sig-grid">
-    <div class="sig-copy">
-      <div class="chapter-tag">Chapter 02</div>
-      <div class="chapter-title">The Signature<br><em>Ceremony</em></div>
-      <p>Your handwritten signature is not a logo. It is a personal seal — the emotional authentication of every journey you take. It appears sparingly: during the opening ceremony, at the end of a story, inside the Legacy Collection.</p>
-      <p class="sig-quote">Not faded in. Written.</p>
-    </div>
-    <div class="sig-card">
-      <div class="sig-image-wrap">
-        <svg id="sigSvg" viewBox="92 238 2699 1522" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;overflow:visible;">
-          <path class="sig-stroke" data-len="10220.5" d="M132.0,853.0 L134.0,809.0 L144.0,766.0 L172.0,702.0 L204.0,650.0 L262.0,575.0 L315.0,519.0 L377.0,464.0 L438.0,417.0 L517.0,365.0 L598.0,322.0 L641.0,304.0 L706.0,284.0 L753.0,278.0 L806.0,282.0 L842.0,296.0 L869.0,319.0 L890.0,353.0 L904.0,390.0 L917.0,445.0 L924.0,494.0 L929.0,599.0 L924.0,770.0 L853.0,773.0 L799.0,781.0 L748.0,794.0 L705.0,810.0 L668.0,829.0 L636.0,855.0 L624.0,873.0 L622.0,896.0 L629.0,910.0 L647.0,928.0 L689.0,956.0 L732.0,976.0 L837.0,1014.0 L727.0,974.0 L669.0,944.0 L647.0,928.0 L625.0,904.0 L622.0,896.0 L624.0,873.0 L636.0,855.0 L668.0,829.0 L705.0,810.0 L742.0,796.0 L799.0,781.0 L842.0,774.0 L925.0,770.0 L904.0,1086.0 L907.0,1104.0 L897.0,1121.0 L877.0,1128.0 L840.0,1160.0 L825.0,1181.0 L819.0,1199.0 L822.0,1222.0 L836.0,1237.0 L859.0,1247.0 L894.0,1251.0 L877.0,1615.0 L877.0,1666.0 L885.0,1720.0 L877.0,1666.0 L877.0,1615.0 L882.0,1463.0 L901.0,1147.0 L901.0,1125.0 L897.0,1121.0 L901.0,1125.0 L901.0,1147.0 L895.0,1250.0 L920.0,1249.0 L958.0,1241.0 L998.0,1226.0 L1032.0,1208.0 L1077.0,1174.0 L1102.0,1149.0 L1134.0,1107.0 L1154.0,1071.0 L1168.0,1037.0 L1174.0,1011.0 L1171.0,999.0 L1147.0,1004.0 L1032.0,1048.0 L969.0,1075.0 L921.0,1100.0 L907.0,1103.0 L921.0,1100.0 L984.0,1068.0 L1086.0,1027.0 L1153.0,1002.0 L1172.0,1000.0 L1180.0,991.0 L1181.0,943.0 L1173.0,904.0 L1160.0,875.0 L1140.0,847.0 L1107.0,818.0 L1067.0,796.0 L1021.0,781.0 L978.0,773.0 L925.0,770.0 L986.0,774.0 L1049.0,789.0 L1093.0,809.0 L1123.0,830.0 L1149.0,858.0 L1173.0,904.0 L1181.0,943.0 L1180.0,991.0 L1171.0,999.0 L1174.0,1003.0 L1173.0,1020.0 L1161.0,1056.0 L1132.0,1110.0 L1102.0,1149.0 L1077.0,1174.0 L1032.0,1208.0 L998.0,1226.0 L958.0,1241.0 L894.0,1251.0 L864.0,1248.0 L844.0,1242.0 L822.0,1222.0 L819.0,1199.0 L832.0,1170.0 L858.0,1142.0 L880.0,1126.0 L897.0,1121.0 L907.0,1104.0 L904.0,1086.0 L925.0,770.0 L929.0,599.0 L924.0,494.0 L917.0,445.0 L904.0,390.0 L890.0,353.0 L869.0,319.0 L842.0,296.0 L806.0,282.0 L753.0,278.0 L706.0,284.0 L641.0,304.0 L598.0,322.0 L536.0,354.0 L465.0,398.0 L388.0,455.0 L331.0,504.0 L280.0,555.0 L243.0,598.0 L204.0,650.0 L172.0,702.0 L144.0,766.0 L134.0,809.0 L132.0,858.0 L135.0,880.0 L143.0,908.0 L157.0,937.0 L170.0,957.0 L197.0,987.0 L229.0,1013.0 L266.0,1036.0 L353.0,1073.0 L505.0,1112.0 L637.0,1135.0 L765.0,1141.0 L637.0,1135.0 L529.0,1117.0 L382.0,1082.0 L344.0,1070.0 L282.0,1044.0 L217.0,1004.0 L170.0,957.0 L143.0,908.0 L135.0,880.0 L132.0,853.0"/>
-          <path class="sig-stroke" data-len="1932.7" d="M1193.0,896.0 L1217.0,894.0 L1280.0,901.0 L1295.0,924.0 L1309.0,934.0 L1315.0,985.0 L1311.0,1017.0 L1295.0,1026.0 L1280.0,1045.0 L1269.0,1050.0 L1264.0,1049.0 L1251.0,1035.0 L1229.0,1056.0 L1219.0,1058.0 L1212.0,1053.0 L1208.0,1036.0 L1209.0,1013.0 L1216.0,989.0 L1234.0,965.0 L1245.0,961.0 L1254.0,963.0 L1259.0,972.0 L1252.0,1036.0 L1258.0,968.0 L1250.0,961.0 L1234.0,965.0 L1221.0,979.0 L1209.0,1013.0 L1209.0,1044.0 L1216.0,1057.0 L1229.0,1056.0 L1251.0,1035.0 L1264.0,1049.0 L1276.0,1048.0 L1295.0,1026.0 L1311.0,1017.0 L1315.0,1021.0 L1316.0,1052.0 L1309.0,1138.0 L1316.0,1052.0 L1316.0,1026.0 L1310.0,1018.0 L1315.0,996.0 L1309.0,938.0 L1313.0,930.0 L1314.0,906.0 L1311.0,898.0 L1288.0,898.0 L1282.0,902.0 L1288.0,898.0 L1313.0,900.0 L1315.0,897.0 L1317.0,832.0 L1315.0,897.0 L1433.0,894.0 L1441.0,886.0 L1440.0,869.0 L1440.0,887.0 L1449.0,893.0 L1463.0,893.0 L1449.0,893.0 L1441.0,886.0 L1428.0,895.0 L1315.0,896.0 L1312.0,899.0 L1313.0,930.0 L1309.0,934.0 L1295.0,924.0 L1280.0,901.0 L1217.0,894.0 L1193.0,896.0"/>
-          <path class="sig-stroke" data-len="1123.9" d="M1342.0,1056.0 L1349.0,995.0 L1345.0,971.0 L1346.0,951.0 L1345.0,971.0 L1349.0,990.0 L1357.0,986.0 L1370.0,968.0 L1381.0,961.0 L1383.0,950.0 L1380.0,962.0 L1387.0,967.0 L1395.0,990.0 L1405.0,1000.0 L1433.0,995.0 L1438.0,961.0 L1436.0,986.0 L1432.0,996.0 L1435.0,999.0 L1436.0,1040.0 L1443.0,1049.0 L1442.0,1055.0 L1444.0,1048.0 L1460.0,1045.0 L1473.0,998.0 L1480.0,989.0 L1492.0,983.0 L1501.0,965.0 L1492.0,983.0 L1477.0,992.0 L1469.0,1007.0 L1460.0,1045.0 L1470.0,1055.0 L1483.0,1055.0 L1493.0,1049.0 L1519.0,1022.0 L1541.0,990.0 L1519.0,1022.0 L1493.0,1049.0 L1483.0,1055.0 L1472.0,1056.0 L1460.0,1045.0 L1443.0,1049.0 L1437.0,1044.0 L1433.0,995.0 L1414.0,1000.0 L1403.0,999.0 L1395.0,990.0 L1387.0,967.0 L1381.0,961.0 L1370.0,968.0 L1357.0,986.0 L1349.0,989.0 L1342.0,1056.0"/>
-          <path class="sig-stroke" data-len="6514.6" d="M1545.0,890.0 L1546.0,856.0 L1560.0,805.0 L1586.0,757.0 L1623.0,708.0 L1671.0,664.0 L1704.0,642.0 L1741.0,626.0 L1765.0,621.0 L1786.0,621.0 L1811.0,629.0 L1833.0,649.0 L1846.0,679.0 L1850.0,724.0 L1843.0,767.0 L1830.0,806.0 L1807.0,850.0 L1782.0,883.0 L1740.0,923.0 L1731.0,939.0 L1714.0,940.0 L1708.0,933.0 L1706.0,681.0 L1707.0,927.0 L1713.0,939.0 L1710.0,944.0 L1701.0,952.0 L1672.0,958.0 L1661.0,971.0 L1645.0,974.0 L1624.0,972.0 L1588.0,957.0 L1568.0,941.0 L1550.0,913.0 L1545.0,890.0 L1550.0,913.0 L1562.0,934.0 L1579.0,951.0 L1609.0,967.0 L1639.0,974.0 L1664.0,970.0 L1674.0,981.0 L1704.0,983.0 L1704.0,955.0 L1701.0,952.0 L1706.0,960.0 L1704.0,983.0 L1707.0,984.0 L1704.0,1046.0 L1708.0,1059.0 L1700.0,1086.0 L1686.0,1093.0 L1700.0,1086.0 L1708.0,1056.0 L1719.0,1053.0 L1750.0,1028.0 L1786.0,1005.0 L1796.0,989.0 L1792.0,983.0 L1707.0,984.0 L1792.0,983.0 L1796.0,988.0 L1821.0,979.0 L1824.0,974.0 L1821.0,962.0 L1809.0,953.0 L1774.0,944.0 L1736.0,942.0 L1733.0,937.0 L1736.0,942.0 L1774.0,944.0 L1809.0,953.0 L1821.0,962.0 L1823.0,976.0 L1828.0,977.0 L1918.0,967.0 L1923.0,977.0 L1923.0,1037.0 L1924.0,1042.0 L1930.0,1046.0 L1929.0,1051.0 L1930.0,1046.0 L1939.0,1043.0 L1954.0,1028.0 L1954.0,1011.0 L1965.0,978.0 L1975.0,968.0 L1987.0,962.0 L2019.0,961.0 L2048.0,962.0 L2048.0,969.0 L2042.0,985.0 L2018.0,1020.0 L1997.0,1039.0 L1979.0,1038.0 L1965.0,1030.0 L1954.0,1028.0 L1965.0,1030.0 L1979.0,1038.0 L1997.0,1039.0 L2006.0,1051.0 L2026.0,1059.0 L2051.0,1056.0 L2063.0,1046.0 L2075.0,1029.0 L2087.0,1024.0 L2093.0,1015.0 L2098.0,992.0 L2111.0,975.0 L2121.0,972.0 L2125.0,966.0 L2122.0,971.0 L2123.0,986.0 L2117.0,998.0 L2109.0,1008.0 L2106.0,1005.0 L2107.0,1010.0 L2093.0,1015.0 L2107.0,1010.0 L2123.0,986.0 L2122.0,971.0 L2111.0,975.0 L2096.0,996.0 L2093.0,1015.0 L2088.0,1023.0 L2100.0,1046.0 L2126.0,1055.0 L2751.0,1055.0 L2134.0,1056.0 L2115.0,1053.0 L2100.0,1046.0 L2089.0,1022.0 L2075.0,1029.0 L2063.0,1046.0 L2051.0,1056.0 L2026.0,1059.0 L2009.0,1053.0 L1996.0,1039.0 L2027.0,1008.0 L2044.0,981.0 L2048.0,962.0 L2054.0,959.0 L2048.0,963.0 L1987.0,962.0 L1975.0,968.0 L1960.0,988.0 L1953.0,1017.0 L1954.0,1028.0 L1939.0,1043.0 L1930.0,1047.0 L1923.0,1037.0 L1923.0,977.0 L1918.0,967.0 L1841.0,977.0 L1828.0,977.0 L1824.0,974.0 L1821.0,979.0 L1796.0,986.0 L1786.0,1005.0 L1750.0,1028.0 L1719.0,1053.0 L1708.0,1057.0 L1704.0,1046.0 L1707.0,984.0 L1674.0,981.0 L1663.0,970.0 L1672.0,958.0 L1701.0,952.0 L1713.0,939.0 L1731.0,939.0 L1740.0,923.0 L1792.0,871.0 L1815.0,837.0 L1830.0,806.0 L1847.0,747.0 L1850.0,701.0 L1841.0,664.0 L1833.0,649.0 L1817.0,633.0 L1786.0,621.0 L1765.0,621.0 L1741.0,626.0 L1704.0,642.0 L1671.0,664.0 L1623.0,708.0 L1594.0,745.0 L1563.0,798.0 L1546.0,856.0 L1545.0,890.0"/>
-          <circle id="penTip" r="14" fill="#eccb8e" opacity="0"/>
-        </svg>
-      </div>
-      <div class="sig-name">Patric Bize</div>
-      <div class="sig-role">Regional Sales Head Switzerland</div>
-      <button class="replay-btn" id="replayBtn">↺ Replay signature</button>
-    </div>
-  </div>
-</section>
-
 <!-- ============ WORLD JOURNEY CEREMONY ============ -->
-<section class="world-sec" id="sec-2">
+<section class="world-sec" id="sec-1">
   <div class="world-head">
-    <div class="chapter-tag">Chapter 03</div>
+    <div class="chapter-tag">Chapter 02</div>
     <div class="chapter-title">Every journey<br><em>becomes a story.</em></div>
     <div class="world-stats">
       <div class="wstat"><div class="num">29</div><div class="lbl">Nights</div></div>
@@ -353,7 +309,7 @@
 <footer class="footer">
   <div class="footer-line">A premium digital travel journal, built one meaningful detail at a time.</div>
   <div class="footer-meta">
-    <span>Designed by <span class="footer-sign">Patric Bize</span></span>
+    <span class="footer-designed">Designed by <img src="assets/signature.svg" alt="Patric Bize" class="footer-sign"></span>
     <span>patricjourney.com</span>
   </div>
 </footer>
@@ -375,16 +331,15 @@
   updateCountdown();
   setInterval(updateCountdown, 30000);
 
-  // ---------- Signature ceremony: true vector stroke-order animation ----------
-  const sigSvg = document.getElementById('sigSvg');
+  // ---------- Signature: true vector stroke-order animation, unframed in hero ----------
   const strokeEls = Array.from(document.querySelectorAll('.sig-stroke'));
   const penTip = document.getElementById('penTip');
-  const sigCard = document.querySelector('.sig-card');
-  let sigPlayed = false;
+  const heroSignature = document.getElementById('heroSignature');
+  let sigPlaying = false;
 
   const strokeLens = strokeEls.map(p => parseFloat(p.dataset.len));
   const totalLen = strokeLens.reduce((a,b)=>a+b, 0);
-  const TOTAL_MS = 2600; // matches release spec pacing
+  const TOTAL_MS = 4600;
 
   strokeEls.forEach((p, i) => {
     p.style.strokeDasharray = strokeLens[i];
@@ -397,6 +352,8 @@
   }
 
   function playSignature(){
+    if(sigPlaying) return;
+    sigPlaying = true;
     resetSignature();
     penTip.style.opacity = '1';
     let start = null;
@@ -404,7 +361,7 @@
       if(!start) start = ts;
       const elapsedTotal = ts - start;
       const globalP = Math.min(elapsedTotal / TOTAL_MS, 1);
-      const lenDone = globalP * totalLen; // total ink length that should be drawn by now
+      const lenDone = globalP * totalLen;
 
       let acc = 0;
       let activeIdx = -1, activePos = 0, activePt = null;
@@ -434,29 +391,19 @@
       if(globalP < 1){
         requestAnimationFrame(frame);
       } else {
-        setTimeout(()=>{ penTip.style.opacity = '0'; }, 500); // 0.5s silence per release spec
+        sigPlaying = false;
+        setTimeout(()=>{ penTip.style.opacity = '0'; }, 500);
       }
     }
     requestAnimationFrame(frame);
   }
 
-  const sigObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !sigPlayed){
-        sigPlayed = true;
-        playSignature();
-      }
-    });
-  }, {threshold:.5});
-  sigObserver.observe(sigCard);
-
-  document.getElementById('replayBtn').addEventListener('click', ()=>{
-    sigPlayed = true;
-    playSignature();
-  });
+  // plays once automatically shortly after the hero text reveals
+  setTimeout(playSignature, 1100);
+  heroSignature.addEventListener('click', playSignature);
 
   // ---------- Nav dot active state ----------
-  const secs = ['sec-0','sec-1','sec-2'].map(id=>document.getElementById(id));
+  const secs = ['sec-0','sec-1'].map(id=>document.getElementById(id));
   const dots = document.querySelectorAll('.nav-dots span');
   const navObserver = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
