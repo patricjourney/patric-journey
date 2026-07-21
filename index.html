@@ -129,6 +129,23 @@
   }
   #penTip{filter:drop-shadow(0 0 8px rgba(232,195,142,.9));}
 
+  /* ---------- CONCIERGE ---------- */
+  .concierge-sec{
+    background:var(--midnight);padding:6vh 6vw 2vh;display:flex;justify-content:center;
+  }
+  .concierge-card{
+    max-width:640px;width:100%;display:flex;gap:18px;align-items:flex-start;
+    background:linear-gradient(150deg, #141b21, #0d1318);
+    border:1px solid var(--hair);border-radius:4px;padding:26px 28px;
+  }
+  .con-avatar{
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--champagne);
+    display:flex;align-items:center;justify-content:center;color:var(--champagne);font-size:13px;
+  }
+  .con-greeting{font-family:var(--serif);font-size:18px;color:var(--ivory);}
+  .con-main{margin-top:6px;font-size:14px;color:var(--warm-sand);line-height:1.6;}
+  .con-sub{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;line-height:1.7;}
+
   /* ---------- WORLD JOURNEY ---------- */
   .world-sec{background:var(--midnight);padding:10vh 6vw 12vh;}
   .world-head{max-width:640px;margin:0 auto 6vh;}
@@ -292,7 +309,7 @@
   <div class="hero-inner">
     <div class="eyebrow">Welcome Home</div>
     <h1>Good evening,<br><em>Patric.</em></h1>
-    <p class="hero-sub">Your next journey is the <span class="dest">Southeast Asia Grand Tour</span> — 29 nights, Zürich to Phu Quoc and back.</p>
+    <p class="hero-sub">Your next journey is the <span class="dest">Southeast Asia Grand Tour</span> — 28 nights, Zürich to Phu Quoc and back.</p>
     <div class="countdown" id="countdown">
       <div class="cd-unit"><div class="num" id="cd-days">–</div><div class="lbl">Days</div></div>
       <div class="cd-unit"><div class="num" id="cd-hours">–</div><div class="lbl">Hours</div></div>
@@ -313,13 +330,25 @@
   </div>
 </section>
 
+<!-- ============ CONCIERGE ============ -->
+<section class="concierge-sec">
+  <div class="concierge-card" id="concierge">
+    <div class="con-avatar">◆</div>
+    <div class="con-body">
+      <div class="con-greeting" id="conGreeting">Good evening, Patric.</div>
+      <div class="con-main" id="conMain">Alles bereit.</div>
+      <div class="con-sub" id="conSub"></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ WORLD JOURNEY CEREMONY ============ -->
 <section class="world-sec" id="sec-1">
   <div class="world-head">
     <div class="chapter-tag">Chapter 02</div>
     <div class="chapter-title">Every journey<br><em>becomes a story.</em></div>
     <div class="world-stats">
-      <div class="wstat"><div class="num">29</div><div class="lbl">Nights</div></div>
+      <div class="wstat"><div class="num">28</div><div class="lbl">Nights</div></div>
       <div class="wstat"><div class="num">5</div><div class="lbl">Hotels</div></div>
       <div class="wstat"><div class="num">2</div><div class="lbl">Countries</div></div>
       <div class="wstat"><div class="num">01–29 Dec</div><div class="lbl">2026</div></div>
@@ -421,6 +450,90 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 30000);
+
+  // ---------- Smart Concierge (no backend — computed from known trip data) ----------
+  const TRIP = [
+    { place:'Bangkok',  lat:13.7563, lon:100.5018, tz:7, hotel:'Divalux',                    start:'2026-12-02', end:'2026-12-04' },
+    { place:'Phu Quoc', lat:10.2202, lon:103.9574, tz:7, hotel:'Worldhotels Long Beach Resort',start:'2026-12-04', end:'2026-12-12' },
+    { place:'Si Racha', lat:13.1725, lon:100.9245, tz:7, hotel:'Novotel Marina Sriracha',      start:'2026-12-12', end:'2026-12-17' },
+    { place:'Hua Hin',  lat:12.5684, lon:99.9577,  tz:7, hotel:'Putahracsa',                   start:'2026-12-17', end:'2026-12-23' },
+    { place:'Bangkok',  lat:13.7563, lon:100.5018, tz:7, hotel:'SKYVIEW Hotel Em District',     start:'2026-12-23', end:'2026-12-29' }
+  ];
+  const OPEN_ITEMS = [
+    { label:'🛂 Vietnam e-Visa', detail:'evisa.gov.vn — Swiss passport, jetzt beantragen.' },
+    { label:'🛡️ Reiseversicherung', detail:'Für die gesamte Reise noch offen.' },
+    { label:'🚐 Transfer Si Racha → Hua Hin', detail:'Privater Transfer, noch zu organisieren.' },
+    { label:'🚐 Transfer Hua Hin → Bangkok', detail:'Privater Transfer, noch zu organisieren.' },
+    { label:'💴 Cash CHF → THB / VND', detail:'Vor Abreise wechseln.' }
+  ];
+
+  // NOAA/SunCalc-style sunset calculation — no external API needed
+  function getSunset(date, lat, lon){
+    const rad = Math.PI/180, dayMs = 864e5, J1970 = 2440588, J2000 = 2451545;
+    const toJulian = d => d.valueOf()/dayMs - 0.5 + J1970;
+    const fromJulian = j => new Date((j + 0.5 - J1970)*dayMs);
+    const toDays = d => toJulian(d) - J2000;
+    const e = rad*23.4397;
+    const decl = l => Math.asin(Math.sin(e)*Math.sin(l));
+    const solarMeanAnomaly = d => rad*(357.5291 + 0.98560028*d);
+    const eclipticLongitude = M => {
+      const C = rad*(1.9148*Math.sin(M) + 0.02*Math.sin(2*M) + 0.0003*Math.sin(3*M));
+      return M + C + rad*102.9372 + Math.PI;
+    };
+    const julianCycle = (d, lw) => Math.round(d - 0.0009 - lw/(2*Math.PI));
+    const approxTransit = (Ht, lw, n) => 0.0009 + (Ht+lw)/(2*Math.PI) + n;
+    const solarTransitJ = (ds, M, L) => J2000 + ds + 0.0053*Math.sin(M) - 0.0069*Math.sin(2*L);
+    const hourAngle = (h, phi, d) => Math.acos((Math.sin(h) - Math.sin(phi)*Math.sin(d)) / (Math.cos(phi)*Math.cos(d)));
+
+    const lw = rad*(-lon), phi = rad*lat, d = toDays(date);
+    const n = julianCycle(d, lw), ds = approxTransit(0, lw, n);
+    const M = solarMeanAnomaly(ds), L = eclipticLongitude(M), dec = decl(L);
+    const w = hourAngle(-0.833*rad, phi, dec);
+    const Jset = solarTransitJ(approxTransit(w, lw, n), M, L);
+    return fromJulian(Jset); // UTC Date
+  }
+
+  function fmtLocalTime(utcDate, tzOffset){
+    const t = new Date(utcDate.getTime() + tzOffset*3600*1000);
+    return String(t.getUTCHours()).padStart(2,'0') + ':' + String(t.getUTCMinutes()).padStart(2,'0');
+  }
+
+  function runConcierge(){
+    const now = new Date();
+    const hour = now.getHours();
+    const greetEl = document.getElementById('conGreeting');
+    const mainEl = document.getElementById('conMain');
+    const subEl = document.getElementById('conSub');
+    const timeGreeting = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    greetEl.textContent = `${timeGreeting}, Patric.`;
+
+    const tripStart = new Date('2026-12-01T00:00:00');
+    const tripEnd   = new Date('2026-12-29T23:59:59');
+
+    if(now < tripStart){
+      const urgent = OPEN_ITEMS[0];
+      mainEl.textContent = `Vor der Reise noch am wichtigsten: ${urgent.label}.`;
+      subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} offene Punkte insgesamt.`;
+    } else if(now <= tripEnd){
+      const current = TRIP.find(s => now >= new Date(s.start) && now < new Date(s.end));
+      if(current){
+        const sunsetUTC = getSunset(now, current.lat, current.lon);
+        const goldenHour = fmtLocalTime(sunsetUTC, current.tz);
+        const nextIdx = TRIP.indexOf(current) + 1;
+        const next = TRIP[nextIdx];
+        mainEl.textContent = `Du bist gerade in ${current.place} — ${current.hotel}.`;
+        subEl.textContent = `🌅 Golden Hour heute ca. ${goldenHour} Uhr Ortszeit` +
+          (next ? `  ·  Weiter geht's nach ${next.place} am ${new Date(next.start).toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})}.` : '  ·  Letzte Station dieser Reise.');
+      } else {
+        mainEl.textContent = 'Unterwegs — geniess die Reise.';
+        subEl.textContent = '';
+      }
+    } else {
+      mainEl.textContent = 'Willkommen zurück. Deine Reise ist vorbei — Zeit für die Erinnerungen.';
+      subEl.textContent = '📸 Schau in die Legacy Collection weiter unten.';
+    }
+  }
+  runConcierge();
 
   // ---------- Signature: true vector stroke-order animation, unframed in hero ----------
   const strokeEls = Array.from(document.querySelectorAll('.sig-stroke'));
@@ -689,9 +802,8 @@ function init(){
     sun.position.set(-120, 60, 80);
     scene.add(sun);
 
-    // ---- Route path ----
-    const pathPoints = [];
-    const segmentRanges = []; // start/end index of sampled points per leg, for reveal timing
+    // ---- Route path (per-leg curves, kept as Curve objects for smooth travel) ----
+    const legs = [];
     for(let i=0;i<WAYPOINTS.length-1;i++){
       const a = latLonToVector3(WAYPOINTS[i].lat, WAYPOINTS[i].lon, RADIUS);
       const b = latLonToVector3(WAYPOINTS[i+1].lat, WAYPOINTS[i+1].lon, RADIUS);
@@ -699,23 +811,31 @@ function init(){
       const dist = a.distanceTo(b);
       mid.normalize().multiplyScalar(RADIUS + Math.max(10, dist*0.35));
       const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-      const segPts = curve.getPoints(40);
-      const startIdx = pathPoints.length;
-      pathPoints.push(...segPts);
-      segmentRanges.push({ startIdx, endIdx: pathPoints.length-1, from:WAYPOINTS[i], to:WAYPOINTS[i+1] });
+      const angleDeg = THREE.MathUtils.radToDeg(
+        Math.acos(THREE.MathUtils.clamp(a.clone().normalize().dot(b.clone().normalize()), -1, 1))
+      );
+      legs.push({ curve, from:WAYPOINTS[i], to:WAYPOINTS[i+1], toIndex:i+1, angleDeg,
+                  points: curve.getPoints(60) });
     }
 
-    const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
+    // one continuous line geometry so every flown leg stays visibly drawn
+    const allPoints = legs.flatMap(l => l.points);
+    const pathGeo = new THREE.BufferGeometry().setFromPoints(allPoints);
     pathGeo.setDrawRange(0,0);
     const pathMat = new THREE.LineBasicMaterial({ color:0xeccb8e, transparent:true, opacity:0.9 });
-    const pathLine = new THREE.Line(pathGeo, pathMat);
-    globeGroup.add(pathLine);
+    globeGroup.add(new THREE.Line(pathGeo, pathMat));
+    const ptsPerLeg = 61;
 
-    const travelerGeo = new THREE.SphereGeometry(1.15, 16, 16);
-    const travelerMat = new THREE.MeshBasicMaterial({ color:0xffe9c4 });
-    const traveler = new THREE.Mesh(travelerGeo, travelerMat);
-    traveler.visible = false;
-    globeGroup.add(traveler);
+    // ---- Small plane (cone pointing along direction of travel) ----
+    const plane = new THREE.Group();
+    const nose = new THREE.Mesh(
+      new THREE.ConeGeometry(0.9, 3.4, 10),
+      new THREE.MeshBasicMaterial({ color:0xffe9c4 })
+    );
+    nose.rotation.x = Math.PI/2; // cone tip along +Z by default after this
+    plane.add(nose);
+    plane.visible = false;
+    globeGroup.add(plane);
 
     const markerGroup = new THREE.Group();
     globeGroup.add(markerGroup);
@@ -732,15 +852,15 @@ function init(){
       return { wp, pos, mesh:m, label, revealed:false };
     });
 
-    // ---- Orientation: start facing Zürich, end facing SEA cluster ----
     function azimuthFor(vec){ return Math.atan2(vec.x, vec.z); }
-    const startVec = latLonToVector3(WAYPOINTS[0].lat, WAYPOINTS[0].lon, 1);
-    const seaAvg = new THREE.Vector3();
-    WAYPOINTS.slice(2).forEach(wp=> seaAvg.add(latLonToVector3(wp.lat, wp.lon, 1)) );
-    seaAvg.divideScalar(WAYPOINTS.length-2).normalize();
-    const rotStart = -azimuthFor(startVec);
-    const rotEnd   = -azimuthFor(seaAvg);
+    const rotStart = -azimuthFor(latLonToVector3(WAYPOINTS[0].lat, WAYPOINTS[0].lon, 1));
     globeGroup.rotation.y = rotStart;
+
+    // fixed viewing direction; distance is dollied in/out for the zoom effect
+    const VIEW_DIR = new THREE.Vector3(0, 8, 190).normalize();
+    const WIDE_DIST = 190;
+    function setCamDist(d){ camera.position.copy(VIEW_DIR.clone().multiplyScalar(d)); }
+    setCamDist(WIDE_DIST);
 
     function resize(){
       const ww = stage.clientWidth, hh = stage.clientHeight;
@@ -751,14 +871,10 @@ function init(){
     window.addEventListener('resize', resize);
 
     function updateLabels(){
-      const half = new THREE.Vector3();
       markerObjs.forEach(o=>{
         if(!o.revealed) return;
         const worldPos = o.pos.clone().applyMatrix4(globeGroup.matrixWorld);
         const ndc = worldPos.clone().project(camera);
-        const facingCam = worldPos.clone().normalize().dot(
-          camera.position.clone().normalize()
-        );
         const rect = stage.getBoundingClientRect();
         const x = (ndc.x*0.5+0.5)*rect.width;
         const y = (1-(ndc.y*0.5+0.5))*rect.height;
@@ -766,48 +882,26 @@ function init(){
         o.label.style.top = (y-10)+'px';
         const camDir = camera.position.clone().normalize();
         const nrm = worldPos.clone().normalize();
-        const visible = nrm.dot(camDir) > -0.15;
-        o.label.classList.toggle('visible', visible);
+        o.label.classList.toggle('visible', nrm.dot(camDir) > -0.15);
       });
     }
 
-    let travelStart = null;
-    const TRAVEL_MS = 7200;
-    function animateCeremony(ts){
-      if(!travelStart) travelStart = ts;
-      const p = Math.min((ts-travelStart)/TRAVEL_MS, 1);
-      const eased = 1 - Math.pow(1-p, 2);
+    function renderFrame(){ renderer.render(scene, camera); updateLabels(); }
 
-      globeGroup.rotation.y = rotStart + (rotEnd-rotStart)*eased;
-
-      const total = pathPoints.length;
-      const count = Math.floor(total*eased);
-      pathGeo.setDrawRange(0, Math.max(count,1));
-
-      if(count > 0 && count < total){
-        traveler.visible = true;
-        traveler.position.copy(pathPoints[count]);
-      } else if(count>=total){
-        traveler.visible = false;
-      }
-
-      segmentRanges.forEach((seg, i)=>{
-        if(count >= seg.startIdx && !markerObjs[i].revealed){
-          revealMarker(i);
+    // generic tween helper — resolves after `ms`, calling update(progress 0..1) each frame
+    function tween(ms, update, easing = p => 1 - Math.pow(1-p, 2)){
+      return new Promise(resolve => {
+        let start = null;
+        function frame(ts){
+          if(!start) start = ts;
+          const p = Math.min((ts-start)/ms, 1);
+          update(easing(p), p);
+          renderFrame();
+          if(p < 1) animId = requestAnimationFrame(frame);
+          else resolve();
         }
+        animId = requestAnimationFrame(frame);
       });
-      if(count >= total-1 && !markerObjs[markerObjs.length-1].revealed){
-        revealMarker(markerObjs.length-1);
-      }
-
-      updateLabels();
-      renderer.render(scene, camera);
-
-      if(p < 1){
-        animId = requestAnimationFrame(animateCeremony);
-      } else {
-        idleLoop();
-      }
     }
 
     function revealMarker(i){
@@ -818,23 +912,75 @@ function init(){
       function grow(){
         s += 0.12;
         o.mesh.scale.setScalar(Math.min(s,1));
-        if(s<1) requestAnimationFrame(grow);
+        renderFrame();
+        if(s<1) animId = requestAnimationFrame(grow);
       }
       grow();
     }
 
+    function zoomDistFor(angleDeg){
+      return THREE.MathUtils.clamp(70 + angleDeg*0.9, 75, 150);
+    }
+
+    async function playJourney(){
+      revealMarker(0); // Zürich, establishing shot
+      await tween(700, ()=>{});
+
+      let camDist = WIDE_DIST;
+      let drawn = 0;
+
+      for(let i=0;i<legs.length;i++){
+        const leg = legs[i];
+        const midAz = -azimuthFor(leg.curve.getPoint(0.5).clone().normalize());
+        const fromAz = globeGroup.rotation.y;
+        const targetDist = zoomDistFor(leg.angleDeg);
+
+        // rotate to center this leg + dolly in, together
+        await tween(1100, p=>{
+          globeGroup.rotation.y = fromAz + (midAz - fromAz) * p;
+          camDist = WIDE_DIST + (targetDist - WIDE_DIST) * p;
+          setCamDist(camDist);
+        });
+
+        // fly the plane along the leg, drawing the path as it goes
+        plane.visible = true;
+        await tween(1500, p=>{
+          const pos = leg.curve.getPoint(p);
+          const tangent = leg.curve.getTangent(p);
+          plane.position.copy(pos);
+          plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tangent.normalize());
+          pathGeo.setDrawRange(0, drawn + Math.max(1, Math.floor(ptsPerLeg*p)));
+        }, p => p); // linear, constant flight speed feel
+        drawn += ptsPerLeg;
+        pathGeo.setDrawRange(0, drawn);
+        plane.visible = false;
+
+        revealMarker(leg.toIndex);
+        await tween(650, ()=>{}); // brief pause at the new city
+      }
+
+      // pull back to the full-world view once the route is complete
+      const finalAz = globeGroup.rotation.y;
+      await tween(1300, p=>{
+        globeGroup.rotation.y = finalAz; // hold orientation, just dolly out
+        camDist = zoomDistFor(legs[legs.length-1].angleDeg) + (WIDE_DIST - zoomDistFor(legs[legs.length-1].angleDeg)) * p;
+        setCamDist(camDist);
+      });
+
+      idleLoop();
+    }
+
     function idleLoop(){
       function loop(){
-        globeGroup.rotation.y += 0.0009;
-        updateLabels();
-        renderer.render(scene, camera);
+        globeGroup.rotation.y += 0.00035; // slow, ambient drift
+        renderFrame();
         animId = requestAnimationFrame(loop);
       }
       loop();
     }
 
     function renderOnly(){
-      renderer.render(scene, camera);
+      renderFrame();
       if(!played) animId = requestAnimationFrame(renderOnly);
     }
     renderOnly();
@@ -842,12 +988,8 @@ function init(){
     window.__playGlobeCeremony = function(){
       if(played) return;
       played = true;
-      markerObjs.forEach(o=>{ o.revealed=false; o.mesh.scale.setScalar(0.001); o.label.classList.remove('visible'); });
-      pathGeo.setDrawRange(0,0);
-      globeGroup.rotation.y = rotStart;
-      travelStart = null;
       cancelAnimationFrame(animId);
-      requestAnimationFrame(animateCeremony);
+      playJourney();
     };
 
   } catch(err){
