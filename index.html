@@ -1025,28 +1025,47 @@ function init(){
     // one continuous line geometry so every flown leg stays visibly drawn
     const allPoints = legs.flatMap(l => l.points);
     const pathGeo = new THREE.BufferGeometry().setFromPoints(allPoints);
+
+    const flightColor = new THREE.Color(0xeccb8e);
+    const carColor = new THREE.Color(0xc17a52);
+    const colors = new Float32Array(allPoints.length*3);
+    let ci = 0;
+    legs.forEach(l => {
+      const c = l.mode === 'car' ? carColor : flightColor;
+      l.points.forEach(()=>{ colors[ci++]=c.r; colors[ci++]=c.g; colors[ci++]=c.b; });
+    });
+    pathGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     pathGeo.setDrawRange(0,0);
-    const pathMat = new THREE.LineBasicMaterial({ color:0xeccb8e, transparent:true, opacity:0.9 });
+    const pathMat = new THREE.LineBasicMaterial({ vertexColors:true, transparent:true, opacity:0.9 });
     globeGroup.add(new THREE.Line(pathGeo, pathMat));
     const ptsPerLeg = 61;
 
-    // ---- Vehicles: gold cone plane for flights, sand-coloured car for road transfers ----
+    // ---- Vehicles: recognisable plane silhouette for flights, rust-coloured car for road transfers ----
+    const GOLD_VEHICLE = 0xf3d9a4;
+    const CAR_COLOR = 0xc17a52; // clearly different hue from the gold flight path/plane
+
     const plane = new THREE.Group();
-    const nose = new THREE.Mesh(
-      new THREE.ConeGeometry(0.9, 3.4, 10),
-      new THREE.MeshBasicMaterial({ color:0xffe9c4 })
-    );
-    nose.rotation.x = Math.PI/2; // cone tip along +Z by default after this
-    plane.add(nose);
+    const planeMat = new THREE.MeshBasicMaterial({ color:GOLD_VEHICLE });
+    const fuselage = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.4, 3.6), planeMat);
+    const wings = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.16, 1.0), planeMat);
+    wings.position.z = -0.2;
+    const tailWing = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.14, 0.55), planeMat);
+    tailWing.position.z = -1.5;
+    const tailFin = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.9, 0.6), planeMat);
+    tailFin.position.set(0, 0.45, -1.5);
+    const nose = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 8), planeMat);
+    nose.rotation.x = Math.PI/2;
+    nose.position.z = 2.05;
+    plane.add(fuselage, wings, tailWing, tailFin, nose);
     plane.visible = false;
     globeGroup.add(plane);
 
     const car = new THREE.Group();
-    const carBody = new THREE.Mesh(
-      new THREE.BoxGeometry(1.0, 0.7, 2.2),
-      new THREE.MeshBasicMaterial({ color:0xd9c4a0 })
-    );
-    car.add(carBody);
+    const carMat = new THREE.MeshBasicMaterial({ color:CAR_COLOR });
+    const carBody = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.6, 2.3), carMat);
+    const carCabin = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.5, 1.2), carMat);
+    carCabin.position.set(0, 0.5, -0.1);
+    car.add(carBody, carCabin);
     car.visible = false;
     globeGroup.add(car);
 
@@ -1157,7 +1176,10 @@ function init(){
       grow();
     }
 
-    function zoomDistFor(angleDeg){
+    function zoomDistFor(angleDeg, mode){
+      if(mode === 'car'){
+        return THREE.MathUtils.clamp(58 + angleDeg*2, 60, 72); // close-in local detail, still clear of the surface
+      }
       return THREE.MathUtils.clamp(70 + angleDeg*0.9, 75, 150);
     }
 
@@ -1172,10 +1194,10 @@ function init(){
         const leg = legs[i];
         const midAz = -azimuthFor(leg.curve.getPoint(0.5).clone().normalize());
         const fromAz = globeGroup.rotation.y;
-        const targetDist = zoomDistFor(leg.angleDeg);
+        const targetDist = zoomDistFor(leg.angleDeg, leg.mode);
 
         // rotate to center this leg + dolly in, together
-        await tween(1100, p=>{
+        await tween(leg.mode === 'car' ? 1500 : 1100, p=>{
           globeGroup.rotation.y = fromAz + (midAz - fromAz) * p;
           camDist = WIDE_DIST + (targetDist - WIDE_DIST) * p;
           setCamDist(camDist);
@@ -1184,7 +1206,7 @@ function init(){
         // travel the leg with the right vehicle — plane for flights, car for road transfers
         const vehicle = leg.mode === 'car' ? car : plane;
         vehicle.visible = true;
-        await tween(leg.mode === 'car' ? 900 : 1500, p=>{
+        await tween(leg.mode === 'car' ? 2200 : 1500, p=>{
           const pos = leg.curve.getPoint(p);
           const tangent = leg.curve.getTangent(p);
           vehicle.position.copy(pos);
@@ -1203,7 +1225,7 @@ function init(){
       const finalAz = globeGroup.rotation.y;
       await tween(1300, p=>{
         globeGroup.rotation.y = finalAz; // hold orientation, just dolly out
-        camDist = zoomDistFor(legs[legs.length-1].angleDeg) + (WIDE_DIST - zoomDistFor(legs[legs.length-1].angleDeg)) * p;
+        camDist = zoomDistFor(legs[legs.length-1].angleDeg, legs[legs.length-1].mode) + (WIDE_DIST - zoomDistFor(legs[legs.length-1].angleDeg, legs[legs.length-1].mode)) * p;
         setCamDist(camDist);
       });
 
