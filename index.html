@@ -200,6 +200,69 @@
   .footer-designed{display:inline-flex;align-items:center;gap:8px;}
   .footer-sign{height:18px;width:auto;vertical-align:middle;filter:drop-shadow(0 0 4px rgba(205,168,106,.35));opacity:.95;}
 
+  /* ---------- LEGACY COLLECTION / MEMORIES ---------- */
+  .legacy-sec{background:var(--deep-ocean);padding:10vh 6vw 12vh;}
+  .legacy-intro{color:var(--muted);font-size:15px;line-height:1.7;max-width:480px;margin-top:18px;}
+  .legacy-wrap{max-width:1240px;margin:6vh auto 0;}
+  .legacy-tabs{
+    display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding-bottom:18px;margin-bottom:32px;
+  }
+  .legacy-tab{
+    background:transparent;border:1px solid var(--hair);color:var(--muted);
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+    padding:10px 16px;border-radius:2px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:flex-start;gap:3px;
+    transition:border-color .3s, color .3s;
+  }
+  .legacy-tab span{font-size:9.5px;color:var(--muted);opacity:.8;}
+  .legacy-tab.active{border-color:var(--champagne);color:var(--ivory);}
+  .legacy-tab.active span{color:var(--champagne);}
+  .legacy-tab:hover{border-color:var(--warm-sand);}
+
+  .legacy-panel{display:none;}
+  .legacy-panel.active{display:block;animation:rise .5s ease forwards;}
+  .legacy-panel-head{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:24px;
+  }
+  .legacy-panel-place{font-family:var(--serif);font-size:24px;}
+  .legacy-panel-meta{font-family:var(--mono);font-size:11px;color:var(--muted);}
+
+  .legacy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+  .legacy-photo{
+    position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:3px;cursor:pointer;
+    background:#0a1116;
+  }
+  .legacy-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+  .legacy-photo:hover img{transform:scale(1.05);}
+  .legacy-photo .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:10px 10px 8px;
+    background:linear-gradient(180deg, transparent, rgba(0,0,0,.75));
+    font-family:var(--mono);font-size:9.5px;color:var(--ivory);letter-spacing:.03em;
+  }
+
+  .legacy-empty{
+    border:1px dashed var(--hair);border-radius:3px;padding:8vh 6vw;text-align:center;color:var(--muted);
+  }
+  .legacy-empty .icon{font-size:22px;color:var(--champagne);margin-bottom:14px;}
+  .legacy-empty .msg{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ivory);}
+  .legacy-empty .sub{font-family:var(--mono);font-size:11px;margin-top:10px;letter-spacing:.04em;}
+
+  .lightbox{
+    position:fixed;inset:0;background:rgba(5,6,7,.94);z-index:200;
+    display:none;align-items:center;justify-content:center;flex-direction:column;padding:6vh 5vw;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%;max-height:78vh;border-radius:2px;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  .lightbox-caption{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em;}
+  .lightbox-close{
+    position:absolute;top:24px;right:6vw;background:transparent;border:none;color:var(--ivory);
+    font-size:18px;cursor:pointer;padding:8px;
+  }
+
+  @media (max-width:860px){
+    .legacy-tabs{gap:8px;}
+    .legacy-tab{padding:8px 12px;}
+  }
   @media (max-width:860px){
     .sig-grid{grid-template-columns:1fr;gap:8vh;}
     .map-wrap{grid-template-columns:1fr;}
@@ -220,6 +283,7 @@
   <div class="nav-dots">
     <span class="active" data-sec="0"></span>
     <span data-sec="1"></span>
+    <span data-sec="2"></span>
   </div>
 </nav>
 
@@ -273,31 +337,31 @@
       <h3>Journey Overview · SEA Grand Tour 2026</h3>
 
       <div class="jl-item">
-        <div><div class="jl-place">Zürich → Abu Dhabi → Bangkok</div><div class="jl-meta">01–02 Dec · Etihad Business · Ref 8DOAAJ</div></div>
+        <div><div class="jl-place">Zürich → Abu Dhabi → Bangkok</div><div class="jl-meta">Etihad Business · 01–02 Dec</div></div>
         <div class="jl-nights">Flight</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Bangkok</div><div class="jl-meta">Divalux · Ref BBA26071620957304</div></div>
+        <div><div class="jl-place">Bangkok</div><div class="jl-meta">Divalux · 02–04 Dec</div></div>
         <div class="jl-nights">2 nights</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Phu Quoc</div><div class="jl-meta">Worldhotels Long Beach Resort</div></div>
+        <div><div class="jl-place">Phu Quoc</div><div class="jl-meta">Worldhotels Long Beach Resort · 04–12 Dec</div></div>
         <div class="jl-nights">8 nights</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Si Racha</div><div class="jl-meta">Novotel Marina Sriracha</div></div>
+        <div><div class="jl-place">Si Racha</div><div class="jl-meta">Novotel Marina Sriracha · 12–17 Dec</div></div>
         <div class="jl-nights">5 nights</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Hua Hin</div><div class="jl-meta">Putahracsa</div></div>
+        <div><div class="jl-place">Hua Hin</div><div class="jl-meta">Putahracsa · 17–23 Dec</div></div>
         <div class="jl-nights">6 nights</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Bangkok</div><div class="jl-meta">SKYVIEW Hotel Em District</div></div>
+        <div><div class="jl-place">Bangkok</div><div class="jl-meta">SKYVIEW Hotel Em District · 23–29 Dec</div></div>
         <div class="jl-nights">6 nights</div>
       </div>
       <div class="jl-item">
-        <div><div class="jl-place">Bangkok → Abu Dhabi → Zürich</div><div class="jl-meta">29 Dec · Etihad Business</div></div>
+        <div><div class="jl-place">Bangkok → Abu Dhabi → Zürich</div><div class="jl-meta">Etihad Business · 29 Dec</div></div>
         <div class="jl-nights">Flight</div>
       </div>
 
@@ -305,6 +369,33 @@
     </div>
   </div>
 </section>
+
+<!-- ============ LEGACY COLLECTION / MEMORIES ============ -->
+<section class="legacy-sec" id="sec-2">
+  <div class="world-head">
+    <div class="chapter-tag">Chapter 03</div>
+    <div class="chapter-title">Every stop,<br><em>remembered.</em></div>
+    <p class="legacy-intro">Collect moments. Remember them forever. Grouped by where you were, captioned by when.</p>
+  </div>
+
+  <div class="legacy-wrap">
+    <div class="legacy-tabs" id="legacyTabs">
+      <button class="legacy-tab active" data-key="bkk1">Bangkok<span>02–04 Dec</span></button>
+      <button class="legacy-tab" data-key="pqc">Phu Quoc<span>04–12 Dec</span></button>
+      <button class="legacy-tab" data-key="sri">Si Racha<span>12–17 Dec</span></button>
+      <button class="legacy-tab" data-key="hua">Hua Hin<span>17–23 Dec</span></button>
+      <button class="legacy-tab" data-key="bkk2">Bangkok<span>23–29 Dec</span></button>
+    </div>
+
+    <div class="legacy-panels" id="legacyPanels"></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
 
 <footer class="footer">
   <div class="footer-line">A premium digital travel journal, built one meaningful detail at a time.</div>
@@ -402,8 +493,74 @@
   setTimeout(playSignature, 1100);
   heroSignature.addEventListener('click', playSignature);
 
+  // ---------- Legacy Collection / Memories ----------
+  // Data structure ready for real photos. Each entry's `photos` array stays empty
+  // until images are added — captions auto-derive from place + date range.
+  const MEMORIES = [
+    { key:'bkk1', place:'Bangkok',  sub:'Divalux',                        range:'02–04 Dec 2026', photos:[] },
+    { key:'pqc',  place:'Phu Quoc', sub:'Worldhotels Long Beach Resort',  range:'04–12 Dec 2026', photos:[] },
+    { key:'sri',  place:'Si Racha', sub:'Novotel Marina Sriracha',        range:'12–17 Dec 2026', photos:[] },
+    { key:'hua',  place:'Hua Hin',  sub:'Putahracsa',                    range:'17–23 Dec 2026', photos:[] },
+    { key:'bkk2', place:'Bangkok',  sub:'SKYVIEW Hotel Em District',      range:'23–29 Dec 2026', photos:[] }
+  ];
+
+  const legacyPanels = document.getElementById('legacyPanels');
+  const legacyTabs = document.getElementById('legacyTabs');
+
+  function renderLegacyPanels(){
+    legacyPanels.innerHTML = MEMORIES.map((m, i) => {
+      const body = m.photos.length
+        ? `<div class="legacy-grid">${m.photos.map(p => `
+            <div class="legacy-photo" data-src="${p.src}" data-caption="${m.place} · ${p.date || m.range}">
+              <img src="${p.src}" alt="${m.place}" loading="lazy">
+              <div class="cap">${p.date || ''}</div>
+            </div>`).join('')}</div>`
+        : `<div class="legacy-empty">
+             <div class="icon">◆</div>
+             <div class="msg">Deine Fotos erscheinen hier, sobald du hier bist.</div>
+             <div class="sub">${m.range}</div>
+           </div>`;
+      return `<div class="legacy-panel${i===0?' active':''}" data-key="${m.key}">
+        <div class="legacy-panel-head">
+          <div class="legacy-panel-place">${m.place}</div>
+          <div class="legacy-panel-meta">${m.sub} · ${m.range}</div>
+        </div>
+        ${body}
+      </div>`;
+    }).join('');
+
+    legacyPanels.querySelectorAll('.legacy-photo').forEach(el => {
+      el.addEventListener('click', () => openLightbox(el.dataset.src, el.dataset.caption));
+    });
+  }
+  renderLegacyPanels();
+
+  legacyTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('.legacy-tab');
+    if(!btn) return;
+    legacyTabs.querySelectorAll('.legacy-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const key = btn.dataset.key;
+    legacyPanels.querySelectorAll('.legacy-panel').forEach(p => {
+      p.classList.toggle('active', p.dataset.key === key);
+    });
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  function openLightbox(src, caption){
+    lightboxImg.src = src;
+    lightboxCaption.textContent = caption;
+    lightbox.classList.add('open');
+  }
+  function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
+
   // ---------- Nav dot active state ----------
-  const secs = ['sec-0','sec-1'].map(id=>document.getElementById(id));
+  const secs = ['sec-0','sec-1','sec-2'].map(id=>document.getElementById(id));
   const dots = document.querySelectorAll('.nav-dots span');
   const navObserver = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
@@ -570,7 +727,7 @@ function init(){
       markerGroup.add(m);
       const label = document.createElement('div');
       label.className = 'g-label';
-      label.innerHTML = '<span class="dot"></span>'+wp.name+'<span class="sub">'+wp.sub+'</span>';
+      label.innerHTML = '<span class="dot"></span>'+wp.name;
       labelsLayer.appendChild(label);
       return { wp, pos, mesh:m, label, revealed:false };
     });
