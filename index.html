@@ -203,6 +203,27 @@
   }
   .globe-caption b{color:var(--champagne);font-weight:400;}
 
+  .local-map{
+    position:absolute;inset:0;background:radial-gradient(circle at 50% 40%, #14201f 0%, #070c0b 75%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .5s ease;padding:6% 8%;
+  }
+  .local-map.visible{opacity:1;}
+  .local-map-tag{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#c17a52;
+    margin-bottom:18px;
+  }
+  .local-map-svg{width:100%;max-width:420px;overflow:visible;}
+  .local-map-svg path{fill:none;stroke:#c17a52;stroke-width:1.6;stroke-dasharray:5 5;opacity:.85;}
+  .local-point{fill:var(--midnight);stroke:#eccb8e;stroke-width:1.6;}
+  .local-map-labels{
+    width:100%;max-width:420px;display:flex;justify-content:space-between;
+    font-family:var(--serif);font-size:15px;color:var(--ivory);margin-top:10px;
+  }
+  .local-map-duration{
+    margin-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em;
+  }
+
   .journey-list{
     border-left:1px solid var(--hair);padding:5vh 3vw;
   }
@@ -404,7 +425,25 @@
     <div class="globe-stage" id="globeStage">
       <div class="globe-labels" id="globeLabels"></div>
       <div class="globe-caption">Zürich ✈ Abu Dhabi ✈ <b>Bangkok</b> ✈ <b>Phu Quoc</b> ✈ Bangkok 🚐 Si Racha 🚐 Hua Hin 🚐 Bangkok</div>
-      <div class="globe-fallback" id="globeFallback">Diese Ansicht benötigt WebGL.<br>Bitte in einem aktuellen Browser öffnen.</div>
+      <div class="globe-fallback" id="globeFallback">This view requires WebGL.<br>Please open in a modern browser.</div>
+
+      <div class="local-map" id="localMap">
+        <div class="local-map-tag">🚐 Private Transfer</div>
+        <svg viewBox="0 0 400 130" class="local-map-svg" preserveAspectRatio="xMidYMid meet">
+          <path id="localRoad" d="M40,75 C140,25 260,115 360,55" />
+          <circle class="local-point" cx="40" cy="75" r="5"/>
+          <circle class="local-point" cx="360" cy="55" r="5"/>
+          <g id="localCar">
+            <rect x="-9" y="-4" width="18" height="7" rx="2" fill="#c17a52"/>
+            <rect x="-5" y="-7" width="9" height="4" rx="1.5" fill="#c17a52"/>
+          </g>
+        </svg>
+        <div class="local-map-labels">
+          <span id="localFromLabel"></span>
+          <span id="localToLabel"></span>
+        </div>
+        <div class="local-map-duration" id="localDuration"></div>
+      </div>
     </div>
 
     <div class="journey-list">
@@ -447,7 +486,7 @@
   <div class="world-head">
     <div class="chapter-tag">Chapter 03</div>
     <div class="chapter-title">Know before<br><em>you go.</em></div>
-    <p class="legacy-intro">Wetter, Kultur und Empfehlungen für jeden Stopp — Dezember-Durchschnittswerte, keine Live-Vorhersage.</p>
+    <p class="legacy-intro">Weather, culture and recommendations for every stop — December averages, not a live forecast.</p>
   </div>
 
   <div class="legacy-wrap">
@@ -523,11 +562,11 @@
     { place:'Bangkok',  lat:13.7563, lon:100.5018, tz:7, hotel:'SKYVIEW Hotel Em District',     start:'2026-12-23', end:'2026-12-29' }
   ];
   const OPEN_ITEMS = [
-    { label:'🛂 Vietnam e-Visa', detail:'evisa.gov.vn — Swiss passport, jetzt beantragen.' },
-    { label:'🛡️ Reiseversicherung', detail:'Für die gesamte Reise noch offen.' },
-    { label:'🚐 Transfer Si Racha → Hua Hin', detail:'Privater Transfer, noch zu organisieren.' },
-    { label:'🚐 Transfer Hua Hin → Bangkok', detail:'Privater Transfer, noch zu organisieren.' },
-    { label:'💴 Cash CHF → THB / VND', detail:'Vor Abreise wechseln.' }
+    { label:'🛂 Vietnam e-Visa', detail:'evisa.gov.vn — Swiss passport, apply now.' },
+    { label:'🛡️ Travel insurance', detail:'Still open for the whole trip.' },
+    { label:'🚐 Transfer Si Racha → Hua Hin', detail:'Private transfer, still to be arranged.' },
+    { label:'🚐 Transfer Hua Hin → Bangkok', detail:'Private transfer, still to be arranged.' },
+    { label:'💴 Cash CHF → THB / VND', detail:'Exchange before departure.' }
   ];
 
   // NOAA/SunCalc-style sunset calculation — no external API needed
@@ -575,8 +614,8 @@
 
     if(now < tripStart){
       const urgent = OPEN_ITEMS[0];
-      mainEl.textContent = `Vor der Reise noch am wichtigsten: ${urgent.label}.`;
-      subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} offene Punkte insgesamt.`;
+      mainEl.textContent = `Most important before departure: ${urgent.label}.`;
+      subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} open items in total.`;
     } else if(now <= tripEnd){
       const dayNum = Math.floor((now - tripStart) / 86400000) + 1;
       const totalDays = Math.round((tripEnd - tripStart) / 86400000) + 1;
@@ -586,16 +625,16 @@
         const goldenHour = fmtLocalTime(sunsetUTC, current.tz);
         const nextIdx = TRIP.indexOf(current) + 1;
         const next = TRIP[nextIdx];
-        mainEl.textContent = `Tag ${dayNum} von ${totalDays} — du bist in ${current.place}, ${current.hotel}.`;
-        subEl.textContent = `🌅 Golden Hour heute ca. ${goldenHour} Uhr Ortszeit` +
-          (next ? `  ·  Weiter geht's nach ${next.place} am ${new Date(next.start).toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})}.` : '  ·  Letzte Station dieser Reise.');
+        mainEl.textContent = `Day ${dayNum} of ${totalDays} — you're in ${current.place}, ${current.hotel}.`;
+        subEl.textContent = `🌅 Golden hour today around ${goldenHour} local time` +
+          (next ? `  ·  Next stop ${next.place} on ${new Date(next.start).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'})}.` : '  ·  Last stop of this journey.');
       } else {
-        mainEl.textContent = `Tag ${dayNum} von ${totalDays} — unterwegs. Geniess die Reise.`;
+        mainEl.textContent = `Day ${dayNum} of ${totalDays} — on the road. Enjoy the journey.`;
         subEl.textContent = '';
       }
     } else {
-      mainEl.textContent = 'Willkommen zurück. Deine Reise ist vorbei — Zeit für die Erinnerungen.';
-      subEl.textContent = '📸 Schau in die Legacy Collection weiter unten.';
+      mainEl.textContent = 'Welcome back. Your journey is over — time for the memories.';
+      subEl.textContent = '📸 Take a look at the Legacy Collection below.';
     }
   }
   runConcierge();
@@ -695,7 +734,7 @@
             </div>`).join('')}</div>`
         : `<div class="legacy-empty">
              <div class="icon">◆</div>
-             <div class="msg">Deine Fotos erscheinen hier, sobald du hier bist.</div>
+             <div class="msg">Your photos will appear here once you've been here.</div>
              <div class="sub">${m.range}</div>
            </div>`;
       return `<div class="legacy-panel${i===0?' active':''}" data-key="${m.key}">
@@ -729,41 +768,41 @@
       `).join('');
     } else {
       latestEl.className = 'con-latest';
-      latestEl.innerHTML = `<div class="con-latest-empty">📸 Noch keine Fotos — kommen während der Reise.</div>`;
+      latestEl.innerHTML = `<div class="con-latest-empty">📸 No photos yet — they'll arrive during the trip.</div>`;
     }
 
-    const updatedStr = new Date(SITE_UPDATED).toLocaleDateString('de-CH', {day:'2-digit', month:'long', year:'numeric'});
+    const updatedStr = new Date(SITE_UPDATED).toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'});
     document.getElementById('conUpdated').innerHTML =
-      `<span>Zuletzt aktualisiert: ${updatedStr}</span><span>${allPhotos.length} Foto${allPhotos.length===1?'':'s'}</span>`;
+      `<span>Last updated: ${updatedStr}</span><span>${allPhotos.length} photo${allPhotos.length===1?'':'s'}</span>`;
   }
   renderConciergeExtras();
 
   // ---------- Destination Guide (real researched content, cited sources) ----------
   const GUIDE = [
     { key:'bkk1', place:'Bangkok', hotel:'Divalux Resort & Spa', lat:13.7563, lon:100.5018, checkin:'2026-12-02',
-      weather:'~31°C tags / 22°C nachts, Trockenzeit, kaum Regen',
-      sights:['Grand Palace & Wat Phra Kaew','Wat Arun bei Sonnenuntergang','Chatuchak Weekend Market (nur Sa/So)'],
-      food:'Hotel liegt nahe Suvarnabhumi Airport, etwas ausserhalb — für Street Food lohnt sich eine Fahrt Richtung Sukhumvit.',
+      weather:'~31°C by day / 22°C at night, dry season, little rain',
+      sights:['Grand Palace & Wat Phra Kaew','Wat Arun at sunset','Chatuchak Weekend Market (Sat/Sun only)'],
+      food:'The hotel sits near Suvarnabhumi Airport, a bit out of town — for street food, a trip toward Sukhumvit is worth it.',
       hotelUrl:'https://divaluxhotel.com/', mapsUrl:'https://maps.google.com/?q=Divalux+Resort+Spa+Bangkok+Suvarnabhumi' },
     { key:'pqc', place:'Phu Quoc', hotel:'Worldhotels Long Beach Resort', lat:10.2202, lon:103.9574, checkin:'2026-12-04',
-      weather:'~30°C tags / 22°C nachts, Trockenzeit beginnt, Meer ~28°C',
+      weather:'~30°C by day / 22°C at night, dry season begins, sea ~28°C',
       sights:['Sao Beach','Duong Dong Night Market','Phu Quoc National Park'],
-      food:'Bun Ken und Bun Quay probieren — beide Spezialitäten gibt es frisch auf dem Nachtmarkt in Duong Dong.',
+      food:'Try bun ken and bun quay — both specialties are freshest at the Duong Dong night market.',
       hotelUrl:'https://worldhotelslongbeach.com/', mapsUrl:'https://maps.google.com/?q=WorldHotels+Long+Beach+Resort+Phu+Quoc' },
     { key:'sri', place:'Si Racha', hotel:'Novotel Marina Sriracha', lat:13.1725, lon:100.9245, checkin:'2026-12-12',
-      weather:'~30°C tags / 21°C nachts, trocken',
-      sights:['Koh Loi Tempelinsel (per Fussgängerbrücke erreichbar)','Sriracha Tiger Zoo','Marina-Promenade'],
-      food:'Si Racha ist die Heimat der "Sriracha"-Chilisauce — frische Meeresfrüchte direkt an der Marina.',
+      weather:'~30°C by day / 21°C at night, dry',
+      sights:['Koh Loi temple island (reachable via footbridge)','Sriracha Tiger Zoo','Marina promenade'],
+      food:'Si Racha is the birthplace of "Sriracha" chili sauce — fresh seafood right on the marina.',
       hotelUrl:'https://novotelsriracha.com/', mapsUrl:'https://maps.google.com/?q=Novotel+Marina+Sriracha' },
     { key:'hua', place:'Hua Hin', hotel:'Putahracsa', lat:12.5684, lon:99.9577, checkin:'2026-12-17',
-      weather:'~30°C tags / 24°C nachts — die trockenste Zeit des Jahres',
-      sights:['Hua Hin Night Market','Cicada Market (Fr–So abends)','Khao Takiab Affenberg & Tempel'],
-      food:'Chao Lay Seafood direkt am Pier, dazu der Nachtmarkt für lokale Thai-Küche.',
+      weather:'~30°C by day / 24°C at night — the driest time of year',
+      sights:['Hua Hin Night Market','Cicada Market (Fri–Sun evenings)','Khao Takiab Monkey Hill & temple'],
+      food:'Chao Lay Seafood right on the pier, plus the night market for local Thai cooking.',
       hotelUrl:'https://www.putahracsa.com/', mapsUrl:'https://maps.google.com/?q=Putahracsa+Hua+Hin' },
     { key:'bkk2', place:'Bangkok', hotel:'SKYVIEW Hotel Em District', lat:13.7563, lon:100.5018, checkin:'2026-12-23',
-      weather:'~31°C tags / 22°C nachts, trocken, festliche Stimmung zum Jahresende',
-      sights:['EmQuartier & Emporium (Em District)','Benchasiri Park','Rooftop-Bars: Vanilla Sky, The Ledger Room'],
-      food:'PRIME im Hotel (7. Stock) für Fine Dining, Sukhumvit Soi 38 für Street Food.',
+      weather:'~31°C by day / 22°C at night, dry, festive year-end mood',
+      sights:['EmQuartier & Emporium (Em District)','Benchasiri Park','Rooftop bars: Vanilla Sky, The Ledger Room'],
+      food:'PRIME in the hotel (7th floor) for fine dining, Sukhumvit Soi 38 for street food.',
       hotelUrl:'https://skyviewhotel.com/', mapsUrl:'https://maps.google.com/?q=SKYVIEW+Hotel+Bangkok+Em+District' }
   ];
 
@@ -773,26 +812,26 @@
   guidePanels.innerHTML = GUIDE.map((g,i) => `
     <div class="guide-panel${i===0?' active':''}" data-key="${g.key}">
       <div class="guide-block" id="weatherBlock-${g.key}">
-        <h4>☀ Wetter im Dezember</h4>
+        <h4>☀ December weather</h4>
         <p>${g.weather}</p>
-        <div class="guide-weather-note">Dezember-Durchschnitt — keine Live-Vorhersage möglich (zu weit im Voraus).</div>
+        <div class="guide-weather-note">December average — no live forecast possible yet (too far ahead).</div>
       </div>
       <div class="guide-block">
-        <h4>◆ Sehenswert</h4>
+        <h4>◆ Worth seeing</h4>
         <ul>${g.sights.map(s=>`<li>${s}</li>`).join('')}</ul>
       </div>
       <div class="guide-block">
-        <h4>🍽 Essen & Kultur</h4>
+        <h4>🍽 Food & culture</h4>
         <p>${g.food}</p>
       </div>
       <div class="guide-block">
         <h4>🏨 ${g.hotel}</h4>
         <div class="guide-links">
-          <a href="${g.hotelUrl}" target="_blank" rel="noopener">Hotel-Website ↗</a>
+          <a href="${g.hotelUrl}" target="_blank" rel="noopener">Hotel website ↗</a>
           <a href="${g.mapsUrl}" target="_blank" rel="noopener">Google Maps ↗</a>
         </div>
       </div>
-      <div class="guide-source">Wetterangaben: Dezember-Durchschnittswerte (u.a. weather-and-climate.com, vinwonders.com, wanderlog.com), sofern keine Live-Vorhersage verfügbar ist.</div>
+      <div class="guide-source">Weather figures: December averages (incl. weather-and-climate.com, vinwonders.com, wanderlog.com), used whenever no live forecast is available.</div>
     </div>
   `).join('');
 
@@ -815,11 +854,11 @@
       const tmax = Math.round(d.temperature_2m_max[0]);
       const tmin = Math.round(d.temperature_2m_min[0]);
       const rain = d.precipitation_probability_max[0];
-      block.querySelector('h4').textContent = '☀ Live-Vorhersage';
+      block.querySelector('h4').textContent = '☀ Live forecast';
       block.querySelector('p').textContent =
-        `${tmax}°C tags / ${tmin}°C nachts am ${new Date(g.checkin).toLocaleDateString('de-CH',{day:'2-digit',month:'long'})}` +
-        (rain != null ? ` · Regenwahrscheinlichkeit ${rain}%` : '');
-      block.querySelector('.guide-weather-note').textContent = 'Live-Wetterdaten via Open-Meteo, gerade eben abgerufen.';
+        `${tmax}°C by day / ${tmin}°C at night on ${new Date(g.checkin).toLocaleDateString('en-GB',{day:'2-digit',month:'long'})}` +
+        (rain != null ? ` · Chance of rain ${rain}%` : '');
+      block.querySelector('.guide-weather-note').textContent = 'Live weather data via Open-Meteo, just fetched.';
     } catch(e){
       // network hiccup or out of range — the seasonal average stays visible, no harm done
     }
@@ -1042,7 +1081,6 @@ function init(){
 
     // ---- Vehicles: recognisable plane silhouette for flights, rust-coloured car for road transfers ----
     const GOLD_VEHICLE = 0xf3d9a4;
-    const CAR_COLOR = 0xc17a52; // clearly different hue from the gold flight path/plane
 
     const plane = new THREE.Group();
     const planeMat = new THREE.MeshBasicMaterial({ color:GOLD_VEHICLE });
@@ -1060,14 +1098,6 @@ function init(){
     plane.visible = false;
     globeGroup.add(plane);
 
-    const car = new THREE.Group();
-    const carMat = new THREE.MeshBasicMaterial({ color:CAR_COLOR });
-    const carBody = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.6, 2.3), carMat);
-    const carCabin = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.5, 1.2), carMat);
-    carCabin.position.set(0, 0.5, -0.1);
-    car.add(carBody, carCabin);
-    car.visible = false;
-    globeGroup.add(car);
 
     const markerGroup = new THREE.Group();
     globeGroup.add(markerGroup);
@@ -1176,11 +1206,37 @@ function init(){
       grow();
     }
 
-    function zoomDistFor(angleDeg, mode){
-      if(mode === 'car'){
-        return THREE.MathUtils.clamp(58 + angleDeg*2, 60, 72); // close-in local detail, still clear of the surface
-      }
+    function zoomDistFor(angleDeg){
       return THREE.MathUtils.clamp(70 + angleDeg*0.9, 75, 150);
+    }
+
+    const localMap = document.getElementById('localMap');
+    const localRoad = document.getElementById('localRoad');
+    const localCar = document.getElementById('localCar');
+    const localFromLabel = document.getElementById('localFromLabel');
+    const localToLabel = document.getElementById('localToLabel');
+    const localDuration = document.getElementById('localDuration');
+    const roadLen = localRoad.getTotalLength();
+    const TRANSFER_DURATIONS = {
+      sri: '~1.5–2 hrs from Bangkok',
+      hua: '~3.5 hrs (271 km)',
+      bkk2: '~3 hrs'
+    };
+
+    async function playLocalTransfer(leg){
+      localFromLabel.textContent = leg.from.name;
+      localToLabel.textContent = leg.to.name;
+      localDuration.textContent = TRANSFER_DURATIONS[leg.toIndex != null ? WAYPOINTS[leg.toIndex].key : ''] || '';
+      localCar.setAttribute('transform', `translate(${localRoad.getPointAtLength(0).x},${localRoad.getPointAtLength(0).y})`);
+      localMap.classList.add('visible');
+      await tween(2400, p=>{
+        const pt = localRoad.getPointAtLength(p*roadLen);
+        const ahead = localRoad.getPointAtLength(Math.min(p*roadLen+2, roadLen));
+        const angle = Math.atan2(ahead.y-pt.y, ahead.x-pt.x) * 180/Math.PI;
+        localCar.setAttribute('transform', `translate(${pt.x},${pt.y}) rotate(${angle})`);
+      }, p=>p);
+      await tween(500, ()=>{});
+      localMap.classList.remove('visible');
     }
 
     async function playJourney(){
@@ -1192,30 +1248,39 @@ function init(){
 
       for(let i=0;i<legs.length;i++){
         const leg = legs[i];
+
+        if(leg.mode === 'car'){
+          await playLocalTransfer(leg);
+          drawn += ptsPerLeg;
+          pathGeo.setDrawRange(0, drawn);
+          revealMarker(leg.toIndex);
+          await tween(400, ()=>{});
+          continue;
+        }
+
         const midAz = -azimuthFor(leg.curve.getPoint(0.5).clone().normalize());
         const fromAz = globeGroup.rotation.y;
-        const targetDist = zoomDistFor(leg.angleDeg, leg.mode);
+        const targetDist = zoomDistFor(leg.angleDeg);
 
         // rotate to center this leg + dolly in, together
-        await tween(leg.mode === 'car' ? 1500 : 1100, p=>{
+        await tween(1100, p=>{
           globeGroup.rotation.y = fromAz + (midAz - fromAz) * p;
           camDist = WIDE_DIST + (targetDist - WIDE_DIST) * p;
           setCamDist(camDist);
         });
 
-        // travel the leg with the right vehicle — plane for flights, car for road transfers
-        const vehicle = leg.mode === 'car' ? car : plane;
-        vehicle.visible = true;
-        await tween(leg.mode === 'car' ? 2200 : 1500, p=>{
+        // fly the plane along the leg, drawing the path as it goes
+        plane.visible = true;
+        await tween(1500, p=>{
           const pos = leg.curve.getPoint(p);
           const tangent = leg.curve.getTangent(p);
-          vehicle.position.copy(pos);
-          vehicle.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tangent.normalize());
+          plane.position.copy(pos);
+          plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tangent.normalize());
           pathGeo.setDrawRange(0, drawn + Math.max(1, Math.floor(ptsPerLeg*p)));
-        }, p => p); // linear, constant speed feel
+        }, p => p); // linear, constant flight speed feel
         drawn += ptsPerLeg;
         pathGeo.setDrawRange(0, drawn);
-        vehicle.visible = false;
+        plane.visible = false;
 
         revealMarker(leg.toIndex);
         await tween(650, ()=>{}); // brief pause at the new city
@@ -1225,7 +1290,7 @@ function init(){
       const finalAz = globeGroup.rotation.y;
       await tween(1300, p=>{
         globeGroup.rotation.y = finalAz; // hold orientation, just dolly out
-        camDist = zoomDistFor(legs[legs.length-1].angleDeg, legs[legs.length-1].mode) + (WIDE_DIST - zoomDistFor(legs[legs.length-1].angleDeg, legs[legs.length-1].mode)) * p;
+        camDist = zoomDistFor(legs[legs.length-1].angleDeg) + (WIDE_DIST - zoomDistFor(legs[legs.length-1].angleDeg)) * p;
         setCamDist(camDist);
       });
 
