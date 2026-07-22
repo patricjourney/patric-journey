@@ -451,7 +451,7 @@
 <section class="hero" id="sec-0">
   <div class="hero-inner">
     <div class="eyebrow">Welcome Home</div>
-    <h1>Good evening,<br><em>Patric.</em></h1>
+    <h1><span id="heroGreeting">Good evening</span>,<br><em>Patric.</em></h1>
     <p class="hero-sub">Your next journey is the <span class="dest">Southeast Asia Grand Tour</span> — 28 nights, Zürich to Phu Quoc and back.</p>
     <div class="countdown" id="countdown">
       <div class="cd-unit"><div class="num" id="cd-days">–</div><div class="lbl">Days</div></div>
@@ -655,6 +655,13 @@
 </footer>
 
 <script>
+  // ---------- Shared time-of-day greeting (hero + concierge stay in sync) ----------
+  function currentGreeting(){
+    const hour = new Date().getHours();
+    return hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  }
+  document.getElementById('heroGreeting').textContent = currentGreeting();
+
   // ---------- Countdown to 01 Dec 2026 ----------
   const target = new Date('2026-12-01T00:00:00');
   function updateCountdown(){
@@ -720,11 +727,10 @@
 
   function runConcierge(){
     const now = new Date();
-    const hour = now.getHours();
     const greetEl = document.getElementById('conGreeting');
     const mainEl = document.getElementById('conMain');
     const subEl = document.getElementById('conSub');
-    const timeGreeting = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    const timeGreeting = currentGreeting();
     greetEl.textContent = `${timeGreeting}, Patric.`;
 
     const tripStart = new Date('2026-12-01T00:00:00');

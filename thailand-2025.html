@@ -451,7 +451,7 @@
 <section class="hero" id="sec-0">
   <div class="hero-inner">
     <div class="eyebrow">A Journey Remembered</div>
-    <h1>Good evening,<br><em>Patric.</em></h1>
+    <h1><span id="heroGreeting">Good evening</span>,<br><em>Patric.</em></h1>
     <p class="hero-sub">This was <span class="dest">Thailand 2025</span> — 26 nights, Zürich to Khon Kaen and back. Complete.</p>
 
     <div class="hero-signature" id="heroSignature" title="Tap to replay">
@@ -646,6 +646,13 @@
 </footer>
 
 <script>
+  // ---------- Shared time-of-day greeting (hero + concierge stay in sync) ----------
+  function currentGreeting(){
+    const hour = new Date().getHours();
+    return hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  }
+  document.getElementById('heroGreeting').textContent = currentGreeting();
+
   // ---------- Smart Concierge (no backend — computed from known trip data) ----------
   // This journey is in the past, so the "before/during trip" branches never fire —
   // the concierge always resolves to the "welcome back" retrospective state.
@@ -690,11 +697,10 @@
 
   function runConcierge(){
     const now = new Date();
-    const hour = now.getHours();
     const greetEl = document.getElementById('conGreeting');
     const mainEl = document.getElementById('conMain');
     const subEl = document.getElementById('conSub');
-    const timeGreeting = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    const timeGreeting = currentGreeting();
     greetEl.textContent = `${timeGreeting}, Patric.`;
 
     const tripStart = new Date('2025-12-03T00:00:00');
