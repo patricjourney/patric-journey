@@ -1474,6 +1474,54 @@ function init(){
       iconSize:[12,12], iconAnchor:[6,6]
     }) : null;
 
+    // Real driving route for car legs (OSRM public demo server — free, no key).
+    // Falls back to a straight line if the request fails for any reason.
+    const routeCache = {};
+    async function fetchDrivingRoute(from, to){
+      const key = `${from[0]},${from[1]}-${to[0]},${to[1]}`;
+      if(routeCache[key]) return routeCache[key];
+      try{
+        const url = `https://router.project-osrm.org/route/v1/driving/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if(data.code !== 'Ok' || !data.routes?.length) return null;
+        const coords = data.routes[0].geometry.coordinates.map(([lon,lat]) => [lat,lon]);
+        routeCache[key] = coords;
+        return coords;
+      } catch(e){
+        return null; // offline / rate-limited / demo server down — straight line takes over
+      }
+    }
+
+    function haversine(a, b){
+      const R = 6371, toRad = x => x*Math.PI/180;
+      const dLat = toRad(b[0]-a[0]), dLon = toRad(b[1]-a[1]);
+      const s = Math.sin(dLat/2)**2 + Math.cos(toRad(a[0]))*Math.cos(toRad(b[0]))*Math.sin(dLon/2)**2;
+      return 2*R*Math.asin(Math.sqrt(s));
+    }
+
+    // point + bearing at fraction p (0..1) along a multi-point path, using real distances
+    function alongPath(coords, p){
+      const segLens = [];
+      let total = 0;
+      for(let i=1;i<coords.length;i++){
+        const d = haversine(coords[i-1], coords[i]);
+        segLens.push(d); total += d;
+      }
+      let target = total*p, acc = 0;
+      for(let i=0;i<segLens.length;i++){
+        if(acc+segLens[i] >= target || i===segLens.length-1){
+          const segP = segLens[i] ? (target-acc)/segLens[i] : 0;
+          const a = coords[i], b = coords[i+1];
+          const lat = a[0] + (b[0]-a[0])*Math.min(1,Math.max(0,segP));
+          const lon = a[1] + (b[1]-a[1])*Math.min(1,Math.max(0,segP));
+          return { point:[lat,lon], brg: bearing(a[0],a[1],b[0],b[1]) };
+        }
+        acc += segLens[i];
+      }
+      return { point: coords[coords.length-1], brg: 0 };
+    }
+
     async function playMapLeg(leg){
       ensureLeafletMap();
       if(!leafletMap) return; // Leaflet failed to load — skip gracefully
@@ -1488,21 +1536,34 @@ function init(){
       const from = [leg.from.lat, leg.from.lon];
       const to = [leg.to.lat, leg.to.lon];
       const routeColor = isCar ? '#e0a374' : '#eccb8e';
+
+      let pathCoords = [from, to]; // straight-line default (used for flights, and as car fallback)
+      if(isCar){
+        const driven = await fetchDrivingRoute(from, to);
+        if(driven && driven.length > 1) pathCoords = driven;
+      }
+
       L.circleMarker(from, { radius:6, color:'#eccb8e', weight:2, fillColor:'#0a1116', fillOpacity:1 }).addTo(routeLayer);
       L.circleMarker(to,   { radius:6, color:'#eccb8e', weight:2, fillColor:'#0a1116', fillOpacity:1 }).addTo(routeLayer);
-      const line = L.polyline([from, to], { color:routeColor, weight:2.5, opacity:.85, dashArray: isCar ? '6 6' : '3 7' }).addTo(routeLayer);
+      const line = L.polyline(pathCoords, { color:routeColor, weight:2.5, opacity:.85, dashArray: isCar ? '6 6' : '3 7' }).addTo(routeLayer);
 
-      const brg = bearing(from[0], from[1], to[0], to[1]);
-      travelMarker = L.marker(from, { icon: isCar ? carDivIcon : planeIcon(brg) }).addTo(routeLayer);
+      const initialBrg = bearing(pathCoords[0][0], pathCoords[0][1], pathCoords[1][0], pathCoords[1][1]);
+      travelMarker = L.marker(from, { icon: isCar ? carDivIcon : planeIcon(initialBrg) }).addTo(routeLayer);
 
       leafletMap.fitBounds(line.getBounds(), { padding:[60,60] });
       localMap.classList.add('visible');
       leafletMap.invalidateSize();
 
       await tween(isCar ? 2400 : 3000, p=>{
-        const lat = from[0] + (to[0]-from[0])*p;
-        const lon = from[1] + (to[1]-from[1])*p;
-        travelMarker.setLatLng([lat, lon]);
+        if(pathCoords.length > 2){
+          const { point, brg } = alongPath(pathCoords, p);
+          travelMarker.setLatLng(point);
+          if(isCar) travelMarker.setIcon(carDivIcon); // car icon has no heading, keep as-is
+        } else {
+          const lat = from[0] + (to[0]-from[0])*p;
+          const lon = from[1] + (to[1]-from[1])*p;
+          travelMarker.setLatLng([lat, lon]);
+        }
       }, p=>p);
       await tween(isCar ? 500 : 700, ()=>{});
     }
