@@ -150,6 +150,24 @@
   .con-sub{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;line-height:1.7;}
   .con-food{margin-top:8px;font-size:13px;color:var(--warm-sand);line-height:1.6;}
 
+  .con-transfers{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);}
+  .con-transfers-head{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);
+    margin-bottom:10px;
+  }
+  .con-transfer-item{
+    display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+    border-bottom:1px solid var(--hair);font-size:12.5px;
+  }
+  .con-transfer-item:last-child{border-bottom:none;}
+  .con-transfer-route{color:var(--ivory);}
+  .con-transfer-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .con-transfer-status{
+    font-family:var(--mono);font-size:10px;letter-spacing:.05em;white-space:nowrap;align-self:flex-start;
+  }
+  .con-transfer-status.booked{color:#7fbf9e;}
+  .con-transfer-status.open{color:var(--champagne);}
+
   .con-latest{margin-top:18px;}
   .con-latest.has-photos{
     display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
@@ -546,6 +564,7 @@
         <div class="con-food" id="conFood"></div>
       </div>
     </div>
+    <div class="con-transfers" id="conTransfers"></div>
     <div class="con-latest" id="conLatest"></div>
     <div class="con-updated" id="conUpdated"></div>
   </div>
@@ -869,6 +888,36 @@
     { label:'🚐 Transfer Si Racha → Hua Hin', detail:'Private transfer, still to be arranged.' },
     { label:'💴 Cash CHF → THB / VND', detail:'Exchange before departure.' }
   ];
+
+  // Private road transfers — mirrors the same data shown on the World Journey local map
+  const TRANSFERS = [
+    { from:'Bangkok', to:'Si Racha', date:'2026-12-12', duration:'~1.5–2 hrs',
+      booked:false, provider:null, ref:null },
+    { from:'Si Racha', to:'Hua Hin', date:'2026-12-17', duration:'~3.5 hrs (271 km)',
+      booked:false, provider:null, ref:null },
+    { from:'Hua Hin', to:'Bangkok', date:'2026-12-23', duration:'Toyota Camry',
+      booked:true, provider:'Hua Hin Cab', ref:'#1145609', price:'THB 2,700 cash' }
+  ];
+
+  function renderTransfers(){
+    const el = document.getElementById('conTransfers');
+    if(!el) return;
+    el.innerHTML = `<div class="con-transfers-head">🚐 Private Road Transfers</div>` +
+      TRANSFERS.map(t => {
+        const dateStr = new Date(t.date).toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
+        const meta = t.booked
+          ? `${t.provider} ${t.ref} · ${t.duration} · ${t.price}`
+          : `${t.duration} — not yet booked`;
+        return `<div class="con-transfer-item">
+          <div>
+            <div class="con-transfer-route">${t.from} → ${t.to}</div>
+            <div class="con-transfer-meta">${dateStr} · ${meta}</div>
+          </div>
+          <div class="con-transfer-status ${t.booked ? 'booked' : 'open'}">${t.booked ? '✅ Booked' : '⬜ Open'}</div>
+        </div>`;
+      }).join('');
+  }
+  renderTransfers();
 
   // NOAA/SunCalc-style sunset calculation — no external API needed
   function getSunset(date, lat, lon){
