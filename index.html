@@ -910,7 +910,7 @@
       TRANSFERS.map(t => {
         const dateStr = new Date(t.date).toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
         const meta = t.booked
-          ? `${t.provider} ${t.ref} · ${t.duration} · ${t.price}`
+          ? `${t.provider} ${t.ref} · ${t.duration}`
           : `${t.duration} — not yet booked`;
         return `<div class="con-transfer-item">
           <div>
@@ -1143,7 +1143,7 @@
       weather:'~30°C by day / 22°C at night, dry season begins, sea ~28°C',
       sights:['Sao Beach','Duong Dong Night Market','Phu Quoc National Park'],
       food:'Try bun ken and bun quay — both specialties are freshest at the Duong Dong night market.',
-      room:'Deluxe Room, 1 King Bed', nights:8, breakfast:'⚠️ Not included', price:'CHF 1,242.11',
+      room:'Deluxe King Garden View', nights:8, breakfast:'✅ Included', price:'CHF 1,242.11',
       hotelUrl:'https://worldhotelslongbeach.com/', mapsUrl:'https://maps.google.com/?q=WorldHotels+Long+Beach+Resort+Phu+Quoc' },
     { key:'sri', place:'Si Racha', hotel:'Novotel Marina Sriracha', lat:13.1725, lon:100.9245, checkin:'2026-12-12',
       weather:'~30°C by day / 21°C at night, dry',
@@ -1204,7 +1204,6 @@
         <div class="guide-room-facts">
           <span>${g.room} · ${g.nights} nights</span>
           <span>${g.breakfast}</span>
-          <span class="guide-price">${g.price}</span>
         </div>
         <div class="guide-links">
           <a href="${g.hotelUrl}" target="_blank" rel="noopener">Hotel website ↗</a>
@@ -1717,7 +1716,7 @@ function init(){
       pqc:  'PhuQuoc Airways 9G702',
       bkkT: 'PhuQuoc Airways 9G701',
       sri:  'GetTransfer.com · Van BYD M6 · #24925448',
-      hua:  "Car Transfers · THB 4,450 total",
+      hua:  "Car Transfers (Destination Central)",
       bkk2: 'Hua Hin Cab · Ref #1145609'
     };
 
