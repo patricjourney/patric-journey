@@ -890,7 +890,6 @@
   const OPEN_ITEMS = [
     { label:'🛂 Vietnam e-Visa', detail:'evisa.gov.vn — Swiss passport, apply now.' },
     { label:'🛡️ Travel insurance', detail:'Still open for the whole trip.' },
-    { label:'🚐 Transfer Si Racha → Hua Hin', detail:'Private transfer, still to be arranged.' },
     { label:'💴 Cash CHF → THB / VND', detail:'Exchange before departure.' }
   ];
 
@@ -898,8 +897,8 @@
   const TRANSFERS = [
     { from:'Bangkok', to:'Si Racha', date:'2026-12-12', duration:'Van, BYD M6',
       booked:true, provider:'GetTransfer.com', ref:'#24925448', price:'€41.65' },
-    { from:'Si Racha', to:'Hua Hin', date:'2026-12-17', duration:'~3.5 hrs (271 km)',
-      booked:false, provider:null, ref:null },
+    { from:'Si Racha', to:'Hua Hin', date:'2026-12-17', duration:'Deposit paid, balance in cash',
+      booked:true, provider:'HuahinTravel.com', ref:'INV-0855', price:'THB 1,500 deposit + cash to driver' },
     { from:'Hua Hin', to:'Bangkok', date:'2026-12-23', duration:'Toyota Camry',
       booked:true, provider:'Hua Hin Cab', ref:'#1145609', price:'THB 2,700 cash' }
   ];
@@ -1718,7 +1717,7 @@ function init(){
       pqc:  'PhuQuoc Airways 9G702',
       bkkT: 'PhuQuoc Airways 9G701',
       sri:  'GetTransfer.com · Van BYD M6 · #24925448',
-      hua:  '~3.5 hrs (271 km)',
+      hua:  'HuahinTravel.com · INV-0855',
       bkk2: 'Hua Hin Cab · Ref #1145609'
     };
 
