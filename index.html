@@ -172,6 +172,24 @@
   .con-sub{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;line-height:1.7;}
   .con-food{margin-top:8px;font-size:13px;color:var(--warm-sand);line-height:1.6;}
 
+  .con-transfers{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);}
+  .con-transfers-head{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);
+    margin-bottom:10px;
+  }
+  .con-transfer-item{
+    display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+    border-bottom:1px solid var(--hair);font-size:12.5px;
+  }
+  .con-transfer-item:last-child{border-bottom:none;}
+  .con-transfer-route{color:var(--ivory);}
+  .con-transfer-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .con-transfer-status{
+    font-family:var(--mono);font-size:10px;letter-spacing:.05em;white-space:nowrap;align-self:flex-start;
+  }
+  .con-transfer-status.booked{color:#7fbf9e;}
+  .con-transfer-status.open{color:var(--champagne);}
+
   .con-latest{margin-top:18px;}
   .con-latest.has-photos{
     display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
@@ -298,6 +316,11 @@
   .guide-weather-note{font-family:var(--mono);font-size:9.5px;color:var(--muted);opacity:.6;margin-top:8px;}
   .guide-block ul{margin:0;padding-left:18px;color:var(--warm-sand);font-size:14px;line-height:1.8;}
   .guide-links{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+  .guide-room-facts{
+    display:flex;flex-direction:column;gap:5px;margin-top:8px;
+    font-family:var(--mono);font-size:11px;color:var(--muted);
+  }
+  .guide-room-facts .guide-price{color:var(--champagne);font-weight:600;}
   .guide-links a{
     font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ivory);text-decoration:none;
     border:1px solid var(--hair);padding:8px 14px;border-radius:2px;transition:border-color .3s, color .3s;
@@ -402,6 +425,60 @@
   @media (max-width:860px){
     .archive-grid{grid-template-columns:1fr;}
   }
+
+  /* ---------- ONBOARD: SEAT & CURRENCY ---------- */
+  .onboard-sec{background:var(--midnight);padding:10vh 6vw 12vh;}
+  .onboard-grid{
+    max-width:1240px;margin:6vh auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
+  }
+  .seat-block-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;flex-wrap:wrap;gap:6px;}
+  .seat-flight{font-family:var(--serif);font-size:17px;color:var(--ivory);}
+  .seat-route{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .seat-pill{
+    display:inline-block;background:var(--champagne);color:var(--midnight);
+    font-family:var(--mono);font-weight:700;font-size:11px;padding:2px 9px;border-radius:3px;margin-left:6px;
+  }
+  .seat-svg{width:100%;height:auto;display:block;margin:12px 0 10px;}
+  .seat-block p{color:var(--muted);font-size:12.5px;line-height:1.6;}
+  .seat-link{
+    display:inline-block;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+    color:var(--champagne);text-decoration:none;border-bottom:1px solid var(--champagne);padding-bottom:2px;
+  }
+  .seat-link:hover{color:var(--gold-bright);border-color:var(--gold-bright);}
+
+  .fx-card{
+    max-width:640px;margin:8vh auto 0;border:1px solid var(--hair);border-radius:4px;
+    padding:26px 28px;background:linear-gradient(150deg, #141b21, #0d1318);
+  }
+  .fx-tabs{display:flex;gap:8px;margin:18px 0;}
+  .fx-tab{
+    flex:1;text-align:center;padding:9px 6px;border-radius:3px;background:transparent;
+    border:1px solid var(--hair);color:var(--muted);font-family:var(--mono);font-size:11px;
+    letter-spacing:.04em;cursor:pointer;transition:border-color .3s,color .3s;
+  }
+  .fx-tab.active{border-color:var(--champagne);color:var(--champagne);}
+  .fx-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .fx-field{flex:1;display:flex;flex-direction:column;gap:6px;}
+  .fx-field label{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+  .fx-field input{
+    font-family:var(--mono);font-size:19px;padding:11px 13px;border-radius:3px;
+    border:1px solid var(--hair);background:var(--midnight);color:var(--ivory);width:100%;
+  }
+  .fx-field input:focus{outline:none;border-color:var(--champagne);}
+  .fx-swap{
+    align-self:flex-end;margin-bottom:4px;background:transparent;color:var(--champagne);
+    border:1px solid var(--champagne);width:38px;height:38px;border-radius:50%;font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,color .3s;
+  }
+  .fx-swap:hover{background:var(--champagne);color:var(--midnight);}
+  .fx-rateline{
+    text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);
+    padding-top:10px;border-top:1px solid var(--hair);margin-bottom:16px;
+  }
+  .fx-examples{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px;}
+  .fx-examples td{padding:6px 4px;border-bottom:1px solid var(--hair);color:var(--muted);}
+  .fx-examples td.amt{color:var(--champagne);font-weight:600;}
+  .fx-examples td.res{text-align:right;color:var(--ivory);}
 
   .storybook{
     position:fixed;inset:0;background:#050708;z-index:300;display:none;
@@ -517,6 +594,7 @@
         <div class="con-food" id="conFood"></div>
       </div>
     </div>
+    <div class="con-transfers" id="conTransfers"></div>
     <div class="con-latest" id="conLatest"></div>
     <div class="con-updated" id="conUpdated"></div>
   </div>
@@ -661,6 +739,121 @@
   </div>
 </section>
 
+<!-- ============ ONBOARD: SEAT & CURRENCY ============ -->
+<section class="onboard-sec">
+  <div class="world-head">
+    <div class="chapter-tag">Chapter 06</div>
+    <div class="chapter-title">Your seat,<br><em>confirmed.</em></div>
+    <p class="legacy-intro">Etihad Business, Ref. 8DOAAJ — aircraft type and seat number confirmed on etihad.com, Ticket 6072417165207.</p>
+  </div>
+
+  <div class="onboard-grid">
+
+    <div class="guide-block seat-block">
+      <div class="seat-block-head"><span class="seat-flight">EY142</span><span class="seat-route">ZRH → AUH · 01 Dec</span></div>
+      <h4>Airbus A321LR · 1-1 Reverse-Herringbone <span class="seat-pill">04A</span></h4>
+      <svg viewBox="0 0 300 90" class="seat-svg">
+        <line x1="150" y1="5" x2="150" y2="85" stroke="var(--hair)" stroke-width="2" stroke-dasharray="4,4"/>
+        <text x="150" y="14" text-anchor="middle" font-size="8" fill="var(--muted)">Aisle</text>
+        <g opacity="0.3">
+          <rect x="20" y="20" width="46" height="26" rx="5" fill="var(--champagne)"/>
+          <rect x="234" y="20" width="46" height="26" rx="5" fill="var(--champagne)"/>
+        </g>
+        <rect x="20" y="52" width="46" height="26" rx="5" fill="var(--gold-bright)" stroke="var(--champagne)" stroke-width="2"/>
+        <text x="43" y="68" text-anchor="middle" font-size="11" fill="var(--midnight)" font-weight="700" font-family="var(--mono)">4A</text>
+        <rect x="234" y="52" width="46" height="26" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="257" y="68" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">4F</text>
+      </svg>
+      <p>Full-flat · direct aisle access · streaming Wi-Fi · night flight 21:35→06:45</p>
+      <a class="seat-link" href="https://www.etihad.com/en-us/plan/fly-with-etihad/our-cabins" target="_blank" rel="noopener">Etihad Business Class →</a>
+    </div>
+
+    <div class="guide-block seat-block">
+      <div class="seat-block-head"><span class="seat-flight">EY406</span><span class="seat-route">AUH → BKK · 02 Dec</span></div>
+      <h4>Boeing 777-300ER · 1-2-1 Business Studio <span class="seat-pill">08A</span></h4>
+      <svg viewBox="0 0 300 90" class="seat-svg">
+        <line x1="90" y1="5" x2="90" y2="85" stroke="var(--hair)" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <line x1="210" y1="5" x2="210" y2="85" stroke="var(--hair)" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <rect x="14" y="30" width="52" height="30" rx="5" fill="var(--gold-bright)" stroke="var(--champagne)" stroke-width="2"/>
+        <text x="40" y="49" text-anchor="middle" font-size="11" fill="var(--midnight)" font-weight="700" font-family="var(--mono)">8A</text>
+        <rect x="106" y="30" width="40" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="126" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">8D</text>
+        <rect x="154" y="30" width="40" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="174" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">8G</text>
+        <rect x="234" y="30" width="52" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="260" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">8K</text>
+      </svg>
+      <p>Single "throne" window pod, no seatmate at C · direct aisle access · 6h15</p>
+      <a class="seat-link" href="https://www.etihad.com/en-us/plan/fly-with-etihad/our-cabins" target="_blank" rel="noopener">Etihad Business Class →</a>
+    </div>
+
+    <div class="guide-block seat-block">
+      <div class="seat-block-head"><span class="seat-flight">EY403</span><span class="seat-route">BKK → AUH · 29 Dec</span></div>
+      <h4>Airbus A380-800 · Upper deck, 1-2-1 <span class="seat-pill">14A</span></h4>
+      <svg viewBox="0 0 300 90" class="seat-svg">
+        <line x1="90" y1="5" x2="90" y2="85" stroke="var(--hair)" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <line x1="210" y1="5" x2="210" y2="85" stroke="var(--hair)" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <rect x="14" y="30" width="52" height="30" rx="5" fill="var(--gold-bright)" stroke="var(--champagne)" stroke-width="2"/>
+        <text x="40" y="49" text-anchor="middle" font-size="11" fill="var(--midnight)" font-weight="700" font-family="var(--mono)">14A</text>
+        <rect x="106" y="30" width="40" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="126" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">14D</text>
+        <rect x="154" y="30" width="40" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="174" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">14G</text>
+        <rect x="234" y="30" width="52" height="30" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="260" y="49" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">14K</text>
+      </svg>
+      <p>Single "throne" window pod, no seatmate at C · full-flat 180° · 6h50</p>
+      <a class="seat-link" href="https://www.etihad.com/en-us/plan/fly-with-etihad/our-cabins" target="_blank" rel="noopener">Etihad Business Class →</a>
+    </div>
+
+    <div class="guide-block seat-block">
+      <div class="seat-block-head"><span class="seat-flight">EY141</span><span class="seat-route">AUH → ZRH · 29 Dec</span></div>
+      <h4>Airbus A321LR · 1-1 Reverse-Herringbone <span class="seat-pill">05A</span></h4>
+      <svg viewBox="0 0 300 90" class="seat-svg">
+        <line x1="150" y1="5" x2="150" y2="85" stroke="var(--hair)" stroke-width="2" stroke-dasharray="4,4"/>
+        <text x="150" y="14" text-anchor="middle" font-size="8" fill="var(--muted)">Aisle</text>
+        <g opacity="0.3">
+          <rect x="20" y="20" width="46" height="26" rx="5" fill="var(--champagne)"/>
+          <rect x="234" y="20" width="46" height="26" rx="5" fill="var(--champagne)"/>
+        </g>
+        <rect x="20" y="52" width="46" height="26" rx="5" fill="var(--gold-bright)" stroke="var(--champagne)" stroke-width="2"/>
+        <text x="43" y="68" text-anchor="middle" font-size="11" fill="var(--midnight)" font-weight="700" font-family="var(--mono)">5A</text>
+        <rect x="234" y="52" width="46" height="26" rx="5" fill="none" stroke="var(--hair)" stroke-width="1.5"/>
+        <text x="257" y="68" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="var(--mono)">5F</text>
+      </svg>
+      <p>Full-flat · direct aisle access · streaming Wi-Fi · 7h10</p>
+      <a class="seat-link" href="https://www.etihad.com/en-us/plan/fly-with-etihad/our-cabins" target="_blank" rel="noopener">Etihad Business Class →</a>
+    </div>
+
+  </div>
+  <div class="guide-source" style="text-align:center;max-width:640px;margin:4vh auto 0;">
+    Cabin schematics are simplified illustrations (not photos) — seat, aircraft type and layout confirmed against the official etihad.com seat map, Manage Booking, 25 Jul 2026. Etihad doesn't publish a separate Business Class page per aircraft type, so all four link to the same official cabin overview.
+  </div>
+
+  <!-- CURRENCY CONVERTER -->
+  <div class="fx-card">
+    <div class="fx-head">
+      <span class="chapter-tag" style="font-size:10px;">On the ground</span>
+      <h4 style="font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ivory);margin-top:6px;">Baht, Dong &amp; Dirham, at a glance.</h4>
+    </div>
+    <div class="fx-tabs" id="fxTabs"></div>
+    <div class="fx-row">
+      <div class="fx-field">
+        <label id="fxLabelFrom">Amount</label>
+        <input type="number" id="fxAmountFrom" value="1000" step="any">
+      </div>
+      <button class="fx-swap" id="fxSwapBtn" title="Swap direction">⇄</button>
+      <div class="fx-field">
+        <label id="fxLabelTo">Result</label>
+        <input type="number" id="fxAmountTo" readonly>
+      </div>
+    </div>
+    <div class="fx-rateline" id="fxRateline"></div>
+    <table class="fx-examples" id="fxExampleTable"></table>
+    <div class="guide-source">Mid-market snapshot, 25 Jul 2026 — not live, for trip-budget orientation only.</div>
+  </div>
+</section>
+
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">✕</button>
   <img id="lightboxImg" src="" alt="">
@@ -790,6 +983,36 @@
     { label:'🛡️ Travel insurance', detail:'Still open for the whole trip.' },
     { label:'💴 Cash CHF → THB / VND', detail:'Exchange before departure.' }
   ];
+
+  // Private road transfers — mirrors the same data shown on the World Journey local map
+  const TRANSFERS = [
+    { from:'Bangkok', to:'Si Racha', date:'2026-12-12', duration:'Van, BYD M6',
+      booked:true, provider:'GetTransfer.com', ref:'#24925448', price:'€41.65' },
+    { from:'Si Racha', to:'Hua Hin', date:'2026-12-17', duration:'10:00 pickup, hotel lobby',
+      booked:true, provider:'HuahinTravel.com', ref:'INV-0855', price:'THB 1,500 deposit + THB 2,950 cash' },
+    { from:'Hua Hin', to:'Bangkok', date:'2026-12-23', duration:'Toyota Camry',
+      booked:true, provider:'Hua Hin Cab', ref:'#1145609', price:'THB 2,700 cash' }
+  ];
+
+  function renderTransfers(){
+    const el = document.getElementById('conTransfers');
+    if(!el) return;
+    el.innerHTML = `<div class="con-transfers-head">🚐 Private Road Transfers</div>` +
+      TRANSFERS.map(t => {
+        const dateStr = new Date(t.date).toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
+        const meta = t.booked
+          ? `${t.provider} ${t.ref} · ${t.duration}`
+          : `${t.duration} — not yet booked`;
+        return `<div class="con-transfer-item">
+          <div>
+            <div class="con-transfer-route">${t.from} → ${t.to}</div>
+            <div class="con-transfer-meta">${dateStr} · ${meta}</div>
+          </div>
+          <div class="con-transfer-status ${t.booked ? 'booked' : 'open'}">${t.booked ? '✅ Booked' : '⬜ Open'}</div>
+        </div>`;
+      }).join('');
+  }
+  renderTransfers();
 
   // NOAA/SunCalc-style sunset calculation — no external API needed
   function getSunset(date, lat, lon){
@@ -1006,26 +1229,31 @@
       weather:'~31°C by day / 22°C at night, dry season, little rain',
       sights:['Grand Palace & Wat Phra Kaew','Wat Arun at sunset','Chatuchak Weekend Market (Sat/Sun only)'],
       food:'The hotel sits near Suvarnabhumi Airport, a bit out of town — for street food, a trip toward Sukhumvit is worth it.',
+      room:'Deluxe Room "Diva Room"', nights:2, breakfast:'✅ Included', price:'THB 4,400 (≈ CHF 106.74*)',
       hotelUrl:'https://divaluxhotel.com/', mapsUrl:'https://maps.google.com/?q=Divalux+Resort+Spa+Bangkok+Suvarnabhumi' },
     { key:'pqc', place:'Phu Quoc', hotel:'Worldhotels Long Beach Resort', lat:10.2202, lon:103.9574, checkin:'2026-12-04',
       weather:'~30°C by day / 22°C at night, dry season begins, sea ~28°C',
       sights:['Sao Beach','Duong Dong Night Market','Phu Quoc National Park'],
       food:'Try bun ken and bun quay — both specialties are freshest at the Duong Dong night market.',
+      room:'Deluxe King Garden View', nights:8, breakfast:'✅ Included', price:'CHF 1,242.11',
       hotelUrl:'https://worldhotelslongbeach.com/', mapsUrl:'https://maps.google.com/?q=WorldHotels+Long+Beach+Resort+Phu+Quoc' },
     { key:'sri', place:'Si Racha', hotel:'Novotel Marina Sriracha', lat:13.1725, lon:100.9245, checkin:'2026-12-12',
       weather:'~30°C by day / 21°C at night, dry',
       sights:['Koh Loi temple island (reachable via footbridge)','Sriracha Tiger Zoo','Marina promenade'],
       food:'Si Racha is the birthplace of "Sriracha" chili sauce — fresh seafood right on the marina.',
+      room:'Premier Deluxe Room, Sea View', nights:5, breakfast:'✅ Included', price:'CHF 533.40',
       hotelUrl:'https://novotelsriracha.com/', mapsUrl:'https://maps.google.com/?q=Novotel+Marina+Sriracha' },
     { key:'hua', place:'Hua Hin', hotel:'Putahracsa', lat:12.5684, lon:99.9577, checkin:'2026-12-17',
       weather:'~30°C by day / 24°C at night — the driest time of year',
       sights:['Hua Hin Night Market','Cicada Market (Fri–Sun evenings)','Khao Takiab Monkey Hill & temple'],
       food:'Chao Lay Seafood right on the pier, plus the night market for local Thai cooking.',
+      room:'Sansky Urban Room', nights:6, breakfast:'✅ Included (+ welcome drink, free minibar)', price:'CHF 800.17',
       hotelUrl:'https://www.putahracsa.com/', mapsUrl:'https://maps.google.com/?q=Putahracsa+Hua+Hin' },
     { key:'bkk2', place:'Bangkok', hotel:'SKYVIEW Hotel Em District', lat:13.7563, lon:100.5018, checkin:'2026-12-23',
       weather:'~31°C by day / 22°C at night, dry, festive year-end mood',
       sights:['EmQuartier & Emporium (Em District)','Benchasiri Park','Rooftop bars: Vanilla Sky, The Ledger Room'],
       food:'PRIME in the hotel (7th floor) for fine dining, Sukhumvit Soi 38 for street food.',
+      room:'Grand Suite', nights:6, breakfast:'✅ Included (+ parking, WiFi, water, coffee/tea, gym)', price:"CHF 1,050.30",
       hotelUrl:'https://skyviewhotel.com/', mapsUrl:'https://maps.google.com/?q=SKYVIEW+Hotel+Bangkok+Em+District' }
   ];
 
@@ -1065,6 +1293,10 @@
       </div>
       <div class="guide-block">
         <h4>🏨 ${g.hotel}</h4>
+        <div class="guide-room-facts">
+          <span>${g.room} · ${g.nights} nights</span>
+          <span>${g.breakfast}</span>
+        </div>
         <div class="guide-links">
           <a href="${g.hotelUrl}" target="_blank" rel="noopener">Hotel website ↗</a>
           <a href="${g.mapsUrl}" target="_blank" rel="noopener">Google Maps ↗</a>
@@ -1575,8 +1807,8 @@ function init(){
       bkk1: 'Etihad EY 406 · Business',
       pqc:  'PhuQuoc Airways 9G702',
       bkkT: 'PhuQuoc Airways 9G701',
-      sri:  'Hua Hin Travel · Ref 281B3208',
-      hua:  '~3.5 hrs (271 km)',
+      sri:  'GetTransfer.com · Van BYD M6 · #24925448',
+      hua:  'Car Transfers (Destination Central) · Ref 281B3208',
       bkk2: 'Hua Hin Cab · Ref #1145609'
     };
 
@@ -1776,6 +2008,75 @@ const globeObserver = new IntersectionObserver((entries)=>{
   });
 }, {threshold:.4});
 globeObserver.observe(document.getElementById('mapWrap'));
+
+// ---------- CURRENCY CONVERTER ----------
+// Mid-market snapshot rates, 25 Jul 2026, CHF as base — not live
+const fxRates = {
+  THB: { perCHF: 41.42, label: "Thai Baht", flag: "🇹🇭", symbol: "฿" },
+  VND: { perCHF: 32162.66, label: "Vietnamese Dong", flag: "🇻🇳", symbol: "₫" },
+  AED: { perCHF: 4.5133, label: "UAE Dirham (Abu Dhabi)", flag: "🇦🇪", symbol: "AED" }
+};
+let fxActive = "THB";
+let fxDirection = "toCHF";
+const fxTabsEl = document.getElementById('fxTabs');
+if(fxTabsEl){
+  Object.keys(fxRates).forEach(code => {
+    const t = document.createElement('div');
+    t.className = 'fx-tab' + (code === fxActive ? ' active' : '');
+    t.textContent = fxRates[code].flag + ' ' + code;
+    t.dataset.code = code;
+    t.onclick = () => { fxActive = code; fxDirection = "toCHF"; fxRender(); };
+    fxTabsEl.appendChild(t);
+  });
+  const fxAmountFrom = document.getElementById('fxAmountFrom');
+  const fxAmountTo = document.getElementById('fxAmountTo');
+  const fxLabelFrom = document.getElementById('fxLabelFrom');
+  const fxLabelTo = document.getElementById('fxLabelTo');
+  const fxRateline = document.getElementById('fxRateline');
+  const fxExampleTable = document.getElementById('fxExampleTable');
+  document.getElementById('fxSwapBtn').onclick = () => {
+    fxDirection = fxDirection === "toCHF" ? "fromCHF" : "toCHF";
+    fxRender();
+  };
+  fxAmountFrom.addEventListener('input', fxCalc);
+  function fxRender(){
+    [...fxTabsEl.children].forEach(t => t.classList.toggle('active', t.dataset.code === fxActive));
+    const r = fxRates[fxActive];
+    if(fxDirection === "toCHF"){
+      fxLabelFrom.textContent = r.label + " (" + fxActive + ")";
+      fxLabelTo.textContent = "Swiss Franc (CHF)";
+    } else {
+      fxLabelFrom.textContent = "Swiss Franc (CHF)";
+      fxLabelTo.textContent = r.label + " (" + fxActive + ")";
+    }
+    fxCalc();
+    fxBuildExamples();
+  }
+  function fxCalc(){
+    const r = fxRates[fxActive];
+    const val = parseFloat(fxAmountFrom.value) || 0;
+    const result = fxDirection === "toCHF" ? val / r.perCHF : val * r.perCHF;
+    fxAmountTo.value = Math.round(result * 100) / 100;
+    fxRateline.textContent = `1 CHF = ${fxFmt(r.perCHF)} ${fxActive}  ·  1 ${fxActive} = ${fxFmt(1/r.perCHF)} CHF`;
+  }
+  function fxBuildExamples(){
+    const r = fxRates[fxActive];
+    const amounts = [100, 500, 1000, 5000];
+    fxExampleTable.innerHTML = '';
+    amounts.forEach(a => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="amt">${a} CHF</td><td class="res">→ ${fxFmt(a * r.perCHF)} ${r.symbol}</td>`;
+      fxExampleTable.appendChild(tr);
+    });
+    amounts.forEach(a => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="amt">${a} ${r.symbol}</td><td class="res">→ ${fxFmt(a / r.perCHF)} CHF</td>`;
+      fxExampleTable.appendChild(tr);
+    });
+  }
+  function fxFmt(n){ return n.toLocaleString('en-CH', {maximumFractionDigits: n < 10 ? 4 : 2}); }
+  fxRender();
+}
 </script>
 
 </body>
