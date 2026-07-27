@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Patric Journey — Every journey becomes a story.</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" href="assets/icons/favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Patric Journey — Every journey becomes a story.">
+<meta property="og:description" content="Southeast Asia Grand Tour · 28 nights, Zürich to Phu Quoc and back · 01–29 Dec 2026">
+<meta property="og:image" content="https://patricjourney.com/assets/icons/og-image.jpg">
+<meta property="og:url" content="https://patricjourney.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Patric Journey — Every journey becomes a story.">
+<meta name="twitter:description" content="Southeast Asia Grand Tour · 28 nights, Zürich to Phu Quoc and back">
+<meta name="twitter:image" content="https://patricjourney.com/assets/icons/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -51,6 +66,13 @@
     mix-blend-mode:difference;
   }
   .nav-mark{font-family:var(--serif);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .sound-toggle{
+    background:transparent;border:1px solid rgba(244,239,230,.25);color:var(--ivory);
+    width:30px;height:30px;border-radius:50%;font-size:12px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:border-color .3s;
+  }
+  .sound-toggle:hover{border-color:var(--champagne);}
   .nav-dots{display:flex;gap:10px;}
   .nav-dots span{
     width:6px;height:6px;border-radius:50%;background:rgba(244,239,230,0.35);
@@ -447,10 +469,13 @@
 
 <nav class="nav">
   <div class="nav-mark">Patric Journey</div>
-  <div class="nav-dots">
-    <span class="active" data-sec="0"></span>
-    <span data-sec="1"></span>
-    <span data-sec="2"></span>
+  <div class="nav-right">
+    <button class="sound-toggle" id="soundToggle" aria-label="Toggle ambient sound">🔇</button>
+    <div class="nav-dots">
+      <span class="active" data-sec="0"></span>
+      <span data-sec="1"></span>
+      <span data-sec="2"></span>
+    </div>
   </div>
 </nav>
 
@@ -670,6 +695,72 @@
   }
   document.getElementById('heroGreeting').textContent = currentGreeting();
 
+  // ---------- Sound design: procedurally generated, no licensed audio ----------
+  let audioCtx = null, ambientNodes = null, soundOn = false;
+
+  function initAudio(){
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  function startAmbient(){
+    initAudio();
+    const bufferSize = 2 * audioCtx.sampleRate;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i=0;i<bufferSize;i++) data[i] = Math.random()*2-1;
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer; noise.loop = true;
+
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass'; filter.frequency.value = 500; filter.Q.value = 0.5;
+
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0.045;
+
+    const lfo = audioCtx.createOscillator();
+    lfo.frequency.value = 0.09; // slow wave-like swell
+    const lfoGain = audioCtx.createGain();
+    lfoGain.gain.value = 0.018;
+    lfo.connect(lfoGain);
+    lfoGain.connect(gain.gain);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    noise.start();
+    lfo.start();
+    ambientNodes = { noise, lfo };
+  }
+
+  function stopAmbient(){
+    if(!ambientNodes) return;
+    ambientNodes.noise.stop();
+    ambientNodes.lfo.stop();
+    ambientNodes = null;
+  }
+
+  function playChime(){
+    if(!soundOn || !audioCtx) return;
+    const t = audioCtx.currentTime;
+    [880, 1318.5].forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine'; osc.frequency.value = freq;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.09/(i+1), t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+1.8);
+      osc.connect(g); g.connect(audioCtx.destination);
+      osc.start(t); osc.stop(t+2);
+    });
+  }
+
+  document.getElementById('soundToggle').addEventListener('click', (e)=>{
+    soundOn = !soundOn;
+    e.target.textContent = soundOn ? '🔊' : '🔇';
+    if(soundOn) startAmbient(); else stopAmbient();
+  });
+
   // ---------- Countdown to 01 Dec 2026 ----------
   const target = new Date('2026-12-01T00:00:00');
   function updateCountdown(){
@@ -830,6 +921,7 @@
         requestAnimationFrame(frame);
       } else {
         sigPlaying = false;
+        playChime();
         setTimeout(()=>{ penTip.style.opacity = '0'; }, 500);
       }
     }
