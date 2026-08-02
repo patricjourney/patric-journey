@@ -1024,9 +1024,7 @@
     { place:'Hua Hin',  lat:12.5684, lon:99.9577,  tz:7, hotel:'Putahracsa',                   start:'2026-12-17', end:'2026-12-23' },
     { place:'Bangkok',  lat:13.7563, lon:100.5018, tz:7, hotel:'SKYVIEW Hotel Em District',     start:'2026-12-23', end:'2026-12-29' }
   ];
-  const OPEN_ITEMS = [
-    { label:'🛂 Vietnam e-Visa', detail:'evisa.gov.vn — Swiss passport, apply now.' }
-  ];
+  const OPEN_ITEMS = [];
 
   // Private road transfers — mirrors the same data shown on the World Journey local map
   const TRANSFERS = [
@@ -1101,10 +1099,15 @@
     const tripEnd   = new Date('2026-12-29T23:59:59');
 
     if(now < tripStart){
-      const urgent = OPEN_ITEMS[0];
-      mainEl.textContent = `Most important before departure: ${urgent.label}.`;
-      const itemWord = OPEN_ITEMS.length === 1 ? 'open item' : 'open items';
-      subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} ${itemWord} in total.`;
+      if(OPEN_ITEMS.length === 0){
+        mainEl.textContent = `All set for departure.`;
+        subEl.textContent = `Every booking is confirmed — nothing left to arrange.`;
+      } else {
+        const urgent = OPEN_ITEMS[0];
+        mainEl.textContent = `Most important before departure: ${urgent.label}.`;
+        const itemWord = OPEN_ITEMS.length === 1 ? 'open item' : 'open items';
+        subEl.textContent = `${urgent.detail}  ·  ${OPEN_ITEMS.length} ${itemWord} in total.`;
+      }
     } else if(now <= tripEnd){
       const dayNum = Math.floor((now - tripStart) / 86400000) + 1;
       const totalDays = Math.round((tripEnd - tripStart) / 86400000) + 1;
