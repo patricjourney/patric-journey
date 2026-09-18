@@ -251,7 +251,8 @@
     opacity:0;pointer-events:none;transition:opacity .5s ease;
   }
   .local-map.visible{opacity:1;}
-  .local-map-el{position:absolute;inset:0;background:#0a1116;filter:saturate(.85) brightness(.9);}
+  .local-map-el{position:absolute;inset:0;background:#0a1116;}
+  .local-map-el .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(.6) brightness(.92) contrast(.9);}
   .local-map-el .leaflet-control-attribution{
     background:rgba(7,10,12,.7) !important;color:var(--muted) !important;font-size:8.5px !important;
   }
@@ -1867,8 +1868,9 @@ function init(){
         zoomControl:false, attributionControl:true, dragging:false, scrollWheelZoom:false,
         doubleClickZoom:false, boxZoom:false, keyboard:false, touchZoom:false, tap:false
       });
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap, © CARTO',
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        subdomains: 'abc',
         maxZoom: 19
       }).addTo(leafletMap);
       routeLayer = L.layerGroup().addTo(leafletMap);
